@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import TaskAppender from "./components/TaskAppender";
 import TaskHeader from "./components/TaskHeader";
 import TaskItem from "./components/TaskItem";
 import TaskList from "./components/TaskList";
+import Confirm from "./components/modals/Confirm";
 
 function App() {
+  const confirmRef = useRef();
+
   const [taskItemList, setTaskItemList] = useState([
     {
       id: "task_1",
@@ -54,6 +57,14 @@ function App() {
   };
 
   const taskItemCheckHandler = (taskId) => {
+    confirmRef.taskId = taskId;
+    confirmRef.current.open();
+  };
+
+  const confirmOkClickHandler = () => {
+    const taskId = confirmRef.taskId;
+    confirmRef.current.close();
+
     console.log(taskId + "가 체크되었습니다.");
     // state가 관리하는 값이 primitive type이라면, 값만 전달한다.
     // state가 관리하는 값이 reference type이라면, 함수를 전달한다.
@@ -90,6 +101,12 @@ function App() {
         ))}
       </TaskList>
       <TaskAppender onAdd={taskAddHandler} />
+      <Confirm ref={confirmRef} onOk={confirmOkClickHandler}>
+        <div>
+          <h3>Task를 완료하시겠습니까?</h3>
+          <div>이 작업은 되돌릴 수 없습니다.</div>
+        </div>
+      </Confirm>
     </div>
   );
 }
