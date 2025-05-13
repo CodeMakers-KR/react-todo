@@ -1,37 +1,47 @@
-import { useState } from "react";
+import { useRef } from "react";
 
-export default function TaskAppender() {
-  const [task, setTask] = useState();
-  const [dueDate, setDueDate] = useState();
-  const [priority, setPriority] = useState();
+export default function TaskAppender({ onAdd }) {
+  const taskRef = useRef();
+  const dueDateRef = useRef();
+  const priorityRef = useRef();
 
   const buttonClickHandler = () => {
-    console.log("Task: ", task);
-    console.log("DueDate: ", dueDate);
-    console.log("Priority: ", priority);
-  };
+    console.log("Task: ", taskRef.current.value);
+    console.log("DueDate: ", dueDateRef.current.value);
+    console.log("Priority: ", priorityRef.current.value);
 
-  const taskInputHandler = (event) => {
-    console.log("TaskInput: ", event.currentTarget.value);
-    setTask(event.currentTarget.value);
-  };
-  const dueDateChangeHandler = (event) => {
-    console.log("DueDateChange: ", event.currentTarget.value);
-    setDueDate(event.currentTarget.value);
-  };
-  const priorityChangeHandler = (event) => {
-    console.log("PriorityChange: ", event.currentTarget.value);
-    setPriority(event.currentTarget.value);
+    if (!taskRef.current.value) {
+      alert("Task를 입력해주세요.");
+      return;
+    }
+    if (!dueDateRef.current.value) {
+      alert("완료예상일자를 선택하세요.");
+      return;
+    }
+    if (!priorityRef.current.value) {
+      alert("우선순위를 선택하세요.");
+      return;
+    }
+
+    onAdd(
+      taskRef.current.value,
+      dueDateRef.current.value,
+      priorityRef.current.value
+    );
+
+    taskRef.current.value = "";
+    dueDateRef.current.value = "";
+    priorityRef.current.value = "";
   };
 
   console.log("TaskAppender Component가 실행됐음.");
 
   return (
     <footer>
-      <input type="text" placeholder="Task" onKeyUp={taskInputHandler} />
-      <input type="date" onChange={dueDateChangeHandler} />
-      <select onChange={priorityChangeHandler}>
-        <option>우선순위</option>
+      <input type="text" placeholder="Task" ref={taskRef} />
+      <input type="date" ref={dueDateRef} />
+      <select ref={priorityRef}>
+        <option value="">우선순위</option>
         <option value="1">높음</option>
         <option value="2">보통</option>
         <option value="3">낮음</option>

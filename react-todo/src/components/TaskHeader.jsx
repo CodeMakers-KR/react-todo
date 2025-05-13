@@ -1,6 +1,12 @@
-export default function TaskHeader() {
+export default function TaskHeader({ onCheck }) {
   const checkHandler = (event) => {
     console.log("모든 Task 완료: ", event.currentTarget.checked);
+
+    if (window.confirm("모든 Task를 완료하시겠습니까?")) {
+      onCheck();
+    }
+
+    event.currentTarget.checked = false;
   };
 
   return (

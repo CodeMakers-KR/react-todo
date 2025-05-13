@@ -29,6 +29,30 @@ function App() {
     },
   ]);
 
+  const taskAllDoneHandler = () => {
+    setTaskItemList((prevState) =>
+      prevState.map((task) => {
+        if (!task.done) {
+          task.done = true;
+        }
+        return task;
+      })
+    );
+  };
+
+  const taskAddHandler = (task, dueDate, priority) => {
+    setTaskItemList((prevState) => [
+      ...prevState,
+      {
+        id: `task_${prevState.length + 1}`,
+        task,
+        dueDate,
+        priority,
+        done: false,
+      },
+    ]);
+  };
+
   const taskItemCheckHandler = (taskId) => {
     console.log(taskId + "가 체크되었습니다.");
     // state가 관리하는 값이 primitive type이라면, 값만 전달한다.
@@ -52,7 +76,7 @@ function App() {
     <div className="wrapper">
       <header>React Todo</header>
       <TaskList>
-        <TaskHeader />
+        <TaskHeader onCheck={taskAllDoneHandler} />
         {taskItemList.map(({ id, task, dueDate, priority, done }) => (
           <TaskItem
             key={id}
@@ -65,7 +89,7 @@ function App() {
           />
         ))}
       </TaskList>
-      <TaskAppender />
+      <TaskAppender onAdd={taskAddHandler} />
     </div>
   );
 }
