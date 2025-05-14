@@ -1,58 +1,25 @@
-import { useRef, useState } from "react";
+import { useReducer, useRef } from "react";
 import TaskAppender from "./components/TaskAppender";
-import TaskItem from "./components/TaskItem";
 import TaskList from "./components/TaskList";
 import Confirm from "./components/modals/Confirm";
+import taskReducers, { actionType } from "./reducers/taskReducers";
+
+const addHandler = (task, dueDate, priority, taskDispatcher) => {
+  taskDispatcher({
+    type: actionType.add,
+    payload: { task, dueDate, priority },
+  });
+};
 
 function App() {
+  console.log("Run App Component");
+
   const confirmRef = useRef();
 
-  const [taskItemList, setTaskItemList] = useState([
-    {
-      id: "task_1",
-      task: "React Component 마스터",
-      dueDate: "2025-12-31",
-      priority: 1,
-      done: true,
-    },
-    {
-      id: "task_2",
-      task: "React Props 마스터",
-      dueDate: "2025-11-31",
-      priority: 2,
-      done: true,
-    },
-    {
-      id: "task_3",
-      task: "React State 마스터",
-      dueDate: "2025-10-31",
-      priority: 3,
-      done: false,
-    },
-  ]);
+  const [taskItemList, taskDispatcher] = useReducer(taskReducers, []);
 
   const taskAllDoneHandler = () => {
-    setTaskItemList((prevState) =>
-      prevState.map((task) => {
-        if (!task.done) {
-          task.done = true;
-        }
-        return task;
-      })
-    );
-  };
-
-  const taskAddHandler = (task, dueDate, priority) => {
-    setTaskItemList((prevState) => [
-      ...prevState,
-      {
-        id: `task_${prevState.length + 1}`,
-        task,
-        dueDate,
-        priority,
-        done: false,
-      },
-    ]);
+    taskDispatcher({ type: actionType.allDone });
   };
 
   const taskItemCheckHandler = (taskId) => {
@@ -72,14 +39,7 @@ function App() {
     // - reference type이 변경되었다. => 메모리를 비교.
     //let arr = [1,2,3]; // 0x1
     //let arr2 = [...arr]; // 0x2
-    setTaskItemList((prevState) =>
-      prevState.map((task) => {
-        if (task.id === taskId) {
-          task.done = true;
-        }
-        return task;
-      })
-    );
+    taskDispatcher({ type: actionType.done, payload: { taskId } });
   };
 
   return (
@@ -88,7 +48,7 @@ function App() {
       <TaskList>
         <TaskList.TaskHeader onCheck={taskAllDoneHandler} />
         {taskItemList.map(({ id, task, dueDate, priority, done }) => (
-          <TaskItem
+          <TaskList.TaskItem
             key={id}
             id={id}
             task={task}
@@ -99,7 +59,7 @@ function App() {
           />
         ))}
       </TaskList>
-      <TaskAppender onAdd={taskAddHandler} />
+      <TaskAppender onAdd={addHandler} dispatcher={taskDispatcher} />
       <Confirm ref={confirmRef} onOk={confirmOkClickHandler}>
         <div>
           <h3>Task를 완료하시겠습니까?</h3>

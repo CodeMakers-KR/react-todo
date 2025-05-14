@@ -1,11 +1,23 @@
-import { useRef } from "react";
+import { createContext, useContext, useRef } from "react";
 import Confirm from "./modals/Confirm";
 
+const TaskListContext = createContext();
+
 export default function TaskList({ children }) {
-  return <ul className="tasks">{children}</ul>;
+  return (
+    <TaskListContext.Provider value="">
+      <ul className="tasks">{children}</ul>
+    </TaskListContext.Provider>
+  );
 }
 
 const TaskHeader = ({ onCheck }) => {
+  const ctx = useContext(TaskListContext);
+
+  if (ctx === undefined) {
+    throw new Error("TaskHeader는 TaskList내부에서 사용되어야 합니다.");
+  }
+
   const confirmRef = useRef();
 
   const confirmOkClickHandler = () => {
@@ -44,4 +56,35 @@ const TaskHeader = ({ onCheck }) => {
   );
 };
 
+const TaskItem = ({ id, task, dueDate, priority, done, onCheck }) => {
+  const ctx = useContext(TaskListContext);
+
+  if (ctx === undefined) {
+    throw new Error("TaskItem은 TaskList내부에서 사용되어야 합니다.");
+  }
+
+  const checkHandler = (event) => {
+    console.log(`${id} Checked: `, event.currentTarget.checked);
+    onCheck(id);
+  };
+
+  return (
+    <li className="task-item">
+      <input
+        id={id}
+        type="checkbox"
+        checked={done}
+        disabled={done}
+        onChange={checkHandler}
+      />
+      <label htmlFor={id} className={done ? "done-todo" : ""}>
+        {task}
+      </label>
+      <span className={`due-date ${done ? "done-todo" : ""}`}>{dueDate}</span>
+      <span className={`priority ${done ? "done-todo" : ""}`}>{priority}</span>
+    </li>
+  );
+};
+
 TaskList.TaskHeader = TaskHeader;
+TaskList.TaskItem = TaskItem;
