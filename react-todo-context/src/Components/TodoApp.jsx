@@ -1,5 +1,3 @@
-import TaskList from "./TaskList";
-import TaskAppender from "./TaskAppender";
 import TaskContextProvider from "../contexts/TaskContext";
 import TaskContextWrapper from "./TaskContextWrapper";
 
