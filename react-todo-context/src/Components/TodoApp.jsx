@@ -1,9 +1,12 @@
-import { useState } from "react";
 import TaskList from "./TaskList";
 import TaskAppender from "./TaskAppender";
+import TaskContextProvider from "../contexts/TaskContext";
+import TaskContextWrapper from "./TaskContextWrapper";
 
 export default function TodoApp() {
-  const [todoLists, setTodoLists] = useState([
+  console.log("Run App - TodoApp Component");
+
+  const todoLists = [
     {
       id: "item1",
       task: "React Component Master",
@@ -25,14 +28,15 @@ export default function TodoApp() {
       priority: 1,
       done: false,
     },
-  ]);
+  ];
 
   return (
     <>
       <div className="wrapper">
         <header>React Todo</header>
-        <TaskList todoLists={todoLists} setTodoLists={setTodoLists} />
-        <TaskAppender setTodoLists={setTodoLists} />
+        <TaskContextProvider initialState={todoLists}>
+          <TaskContextWrapper />
+        </TaskContextProvider>
       </div>
     </>
   );

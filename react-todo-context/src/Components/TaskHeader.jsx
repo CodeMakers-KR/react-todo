@@ -3,10 +3,12 @@ import Confirm from "./modal/Confirm";
 
 export default function TaskHeader({
   todoLists,
-  setTodoLists,
+  onAllDone,
   setAlertMessage,
   alertRef,
 }) {
+  console.log("Run App - TodoApp - TaskList - TaskHeader Component");
+
   const allDoneConfirmRef = useRef();
 
   const [allDoneConfirmMessage, setAllDoneConfirmMessage] = useState();
@@ -31,16 +33,7 @@ export default function TaskHeader({
   };
 
   const allDoneOkHandler = () => {
-    setTodoLists((prevTodoList) => {
-      const newTodoList = [...prevTodoList];
-
-      newTodoList.map((todo) => {
-        todo.done = true;
-        return todo;
-      });
-      return newTodoList;
-    });
-
+    onAllDone();
     allDoneConfirmRef.current.close();
   };
 

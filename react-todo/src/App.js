@@ -1,6 +1,5 @@
 import { useRef, useState } from "react";
 import TaskAppender from "./components/TaskAppender";
-import TaskHeader from "./components/TaskHeader";
 import TaskItem from "./components/TaskItem";
 import TaskList from "./components/TaskList";
 import Confirm from "./components/modals/Confirm";
@@ -87,7 +86,7 @@ function App() {
     <div className="wrapper">
       <header>React Todo</header>
       <TaskList>
-        <TaskHeader onCheck={taskAllDoneHandler} />
+        <TaskList.TaskHeader onCheck={taskAllDoneHandler} />
         {taskItemList.map(({ id, task, dueDate, priority, done }) => (
           <TaskItem
             key={id}

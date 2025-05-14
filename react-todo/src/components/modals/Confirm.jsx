@@ -1,10 +1,12 @@
 import { useImperativeHandle, useState } from "react";
+import { createPortal } from "react-dom";
 
 export default function Confirm({ onOk, onCancel, children, ref }) {
   const [display, setDisplay] = useState("none");
 
   const confirmStyle = {
     position: "fixed",
+    zIndex: 100,
     top: 100,
     left: 100,
     backgroundColor: "#FFF",
@@ -22,7 +24,7 @@ export default function Confirm({ onOk, onCancel, children, ref }) {
     },
   }));
 
-  return (
+  return createPortal(
     <div className="modal" style={confirmStyle}>
       <div className="modal-body">
         {children}
@@ -39,6 +41,7 @@ export default function Confirm({ onOk, onCancel, children, ref }) {
           </button>
         </section>
       </div>
-    </div>
+    </div>,
+    document.querySelector("#modals")
   );
 }

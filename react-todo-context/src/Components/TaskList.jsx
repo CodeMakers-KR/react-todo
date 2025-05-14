@@ -4,7 +4,9 @@ import TaskItem from "./TaskItem";
 import Confirm from "./modal/Confirm";
 import Alert from "./modal/Modal";
 
-export default function TaskList({ todoLists, setTodoLists }) {
+export default function TaskList({ onDone, onAllDone, todoLists }) {
+  console.log("Run App - TodoApp - TaskList Component");
+
   const doneConfirmRef = useRef();
   const alertRef = useRef();
 
@@ -21,18 +23,7 @@ export default function TaskList({ todoLists, setTodoLists }) {
   };
 
   const doneTodoItemHandler = () => {
-    setTodoLists((prevTodoList) => {
-      const newTodoList = [...prevTodoList];
-
-      newTodoList.map((todo) => {
-        if (todo.id === doneConfirmRef.todoId) {
-          todo.done = true;
-        }
-        return todo;
-      });
-      return newTodoList;
-    });
-
+    onDone(doneConfirmRef.todoId);
     doneConfirmRef.current.close();
   };
 
@@ -41,7 +32,7 @@ export default function TaskList({ todoLists, setTodoLists }) {
       <ul className="tasks">
         <TaskHeader
           todoLists={todoLists}
-          setTodoLists={setTodoLists}
+          onAllDone={onAllDone}
           setAlertMessage={setAlertMessage}
           alertRef={alertRef}
         />

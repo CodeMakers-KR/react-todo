@@ -1,7 +1,9 @@
 import { useRef, useState } from "react";
 import Alert from "./modal/Modal";
 
-export default function TaskAppender({ setTodoLists }) {
+export default function TaskAppender({ onAdd }) {
+  console.log("Run App - TodoApp - TaskAppender Component");
+
   const taskRef = useRef();
   const dueDateRef = useRef();
   const priorityRef = useRef();
@@ -27,25 +29,12 @@ export default function TaskAppender({ setTodoLists }) {
       alertRef.current.open();
       return;
     }
-    addNewTodoHandler(
+
+    onAdd(
       taskRef.current.value,
       dueDateRef.current.value,
       priorityRef.current.value
     );
-  };
-
-  const addNewTodoHandler = (task, dueDate, priority) => {
-    setTodoLists((prevTodoList) => {
-      const newTodoList = [...prevTodoList];
-      newTodoList.push({
-        id: "item" + (prevTodoList.length + 1),
-        task,
-        dueDate,
-        priority,
-        done: false,
-      });
-      return newTodoList;
-    });
   };
 
   return (

@@ -1,4 +1,5 @@
 import { useImperativeHandle, useRef } from "react";
+import { createPortal } from "react-dom";
 
 export default function Alert({ children, ref }) {
   const dialogRef = useRef();
@@ -16,7 +17,7 @@ export default function Alert({ children, ref }) {
     dialogRef.current.close();
   };
 
-  return (
+  return createPortal(
     <dialog className="modal" ref={dialogRef}>
       <div className="modal-body">
         <section className="modal-close-button" onClick={closeClickHandler}>
@@ -24,6 +25,7 @@ export default function Alert({ children, ref }) {
         </section>
         {children}
       </div>
-    </dialog>
+    </dialog>,
+    document.querySelector("#modals")
   );
 }
