@@ -1,11 +1,12 @@
-import { useRef, useState } from "react";
+import { memo, useRef, useState } from "react";
 import Confirm from "./modal/Confirm";
 
-export default function TaskHeader({
-  todoLists,
-  onAllDone,
-  setAlertMessage,
-  alertRef,
+export default memo(function TaskHeader({
+  taskCount, // 객체, useMemo의 대상.
+  todoLists, // state callback 대상 아님
+  onAllDone, // context의 함수 callback 대상.
+  setAlertMessage, // state의 함수 => 이미 캐싱이 되어있음. callback 대상 아님.
+  alertRef, // ref 객체 => 이미 캐싱이 되어있음. memo대상 아님.
 }) {
   console.log("Run App - TodoApp - TaskList - TaskHeader Component");
 
@@ -39,6 +40,10 @@ export default function TaskHeader({
 
   return (
     <>
+      <li className="tasks-counter">
+        <div>진행중: {taskCount.process}</div>
+        <div>완료: {taskCount.done}</div>
+      </li>
       <li className="tasks-header">
         <input id="checkall" type="checkbox" onChange={doneAllTodoHandler} />
         <label>Task</label>
@@ -50,4 +55,4 @@ export default function TaskHeader({
       </Confirm>
     </>
   );
-}
+});

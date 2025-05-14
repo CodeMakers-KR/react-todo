@@ -11,7 +11,9 @@ export default function TaskList({ children }) {
   );
 }
 
-const TaskHeader = ({ onCheck }) => {
+const TaskHeader = ({ taskCount, onCheck }) => {
+  console.log("Run TaskHeader Component");
+
   const ctx = useContext(TaskListContext);
 
   if (ctx === undefined) {
@@ -36,6 +38,10 @@ const TaskHeader = ({ onCheck }) => {
 
   return (
     <>
+      <li className="tasks-counter">
+        <div>진행중: {taskCount.process}</div>
+        <div>완료: {taskCount.done}</div>
+      </li>
       <li className="tasks-header">
         <input id="checkall" type="checkbox" onChange={checkHandler} />
         <label>Task</label>

@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useCallback, useContext } from "react";
 import { TaskContext } from "../contexts/TaskContext";
 import TaskList from "./TaskList";
 import TaskAppender from "./TaskAppender";
@@ -6,10 +6,13 @@ import TaskAppender from "./TaskAppender";
 export default function TaskContextWrapper() {
   const { done, allDone, add, todoLists } = useContext(TaskContext);
 
+  const cachedAdd = useCallback(add, []);
+  const cachedAllDone = useCallback(allDone, []);
+
   return (
     <>
-      <TaskList onDone={done} onAllDone={allDone} todoLists={todoLists} />
-      <TaskAppender onAdd={add} />
+      <TaskList onDone={done} onAllDone={cachedAllDone} todoLists={todoLists} />
+      <TaskAppender onAdd={cachedAdd} />
     </>
   );
 }

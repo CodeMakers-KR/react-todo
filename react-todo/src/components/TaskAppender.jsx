@@ -1,17 +1,7 @@
 import { memo, useRef, useState } from "react";
 import Alert from "./modals/Alert";
 
-export default memo(function TaskAppender({ onAdd, dispatcher }) {
-  let sum = 0;
-  function addAll() {
-    for (let i = 1; i < 1000000000; i++) {
-      sum += i;
-    }
-
-    console.log(sum);
-  }
-  addAll();
-
+export default memo(function TaskAppender({ onRef }) {
   const [alertMessage, setAlertMessage] = useState();
 
   const alertRef = useRef();
@@ -42,11 +32,11 @@ export default memo(function TaskAppender({ onAdd, dispatcher }) {
       return;
     }
 
-    onAdd(
+    onRef.onAdd(
       taskRef.current.value,
       dueDateRef.current.value,
       priorityRef.current.value,
-      dispatcher
+      onRef.dispatcher
     );
 
     taskRef.current.value = "";

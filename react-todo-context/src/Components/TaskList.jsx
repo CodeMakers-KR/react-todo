@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import TaskHeader from "./TaskHeader";
 import TaskItem from "./TaskItem";
 import Confirm from "./modal/Confirm";
@@ -27,10 +27,19 @@ export default function TaskList({ onDone, onAllDone, todoLists }) {
     doneConfirmRef.current.close();
   };
 
+  const taskCount = useMemo(
+    () => ({
+      done: todoLists.filter((task) => task.done).length,
+      process: todoLists.filter((task) => !task.done).length,
+    }),
+    [todoLists]
+  );
+
   return (
     <>
       <ul className="tasks">
         <TaskHeader
+          taskCount={taskCount}
           todoLists={todoLists}
           onAllDone={onAllDone}
           setAlertMessage={setAlertMessage}

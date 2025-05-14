@@ -1,4 +1,4 @@
-import { useReducer, useRef } from "react";
+import { useMemo, useReducer, useRef } from "react";
 import TaskAppender from "./components/TaskAppender";
 import TaskList from "./components/TaskList";
 import Confirm from "./components/modals/Confirm";
@@ -17,6 +17,18 @@ function App() {
   const confirmRef = useRef();
 
   const [taskItemList, taskDispatcher] = useReducer(taskReducers, []);
+
+  const taskAppenderRef = useRef();
+  taskAppenderRef.onAdd = addHandler; // Cache!
+  taskAppenderRef.dispatcher = taskDispatcher; // Cache!
+
+  const taskCount = useMemo(
+    () => ({
+      done: taskItemList.filter((task) => task.done).length,
+      process: taskItemList.filter((task) => !task.done).length,
+    }),
+    [taskItemList]
+  );
 
   const taskAllDoneHandler = () => {
     taskDispatcher({ type: actionType.allDone });
@@ -46,7 +58,10 @@ function App() {
     <div className="wrapper">
       <header>React Todo</header>
       <TaskList>
-        <TaskList.TaskHeader onCheck={taskAllDoneHandler} />
+        <TaskList.TaskHeader
+          taskCount={taskCount}
+          onCheck={taskAllDoneHandler}
+        />
         {taskItemList.map(({ id, task, dueDate, priority, done }) => (
           <TaskList.TaskItem
             key={id}
@@ -59,7 +74,7 @@ function App() {
           />
         ))}
       </TaskList>
-      <TaskAppender onAdd={addHandler} dispatcher={taskDispatcher} />
+      <TaskAppender onRef={taskAppenderRef} />
       <Confirm ref={confirmRef} onOk={confirmOkClickHandler}>
         <div>
           <h3>Task를 완료하시겠습니까?</h3>

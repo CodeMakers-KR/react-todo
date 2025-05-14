@@ -1,7 +1,7 @@
-import { useRef, useState } from "react";
+import { memo, useRef, useState } from "react";
 import Alert from "./modal/Modal";
 
-export default function TaskAppender({ onAdd }) {
+export default memo(function TaskAppender({ onAdd }) {
   console.log("Run App - TodoApp - TaskAppender Component");
 
   const taskRef = useRef();
@@ -59,4 +59,4 @@ export default function TaskAppender({ onAdd }) {
       </Alert>
     </>
   );
-}
+});
