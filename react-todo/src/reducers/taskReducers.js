@@ -1,4 +1,5 @@
 export const actionType = {
+  init: "INIT",
   done: "DONE",
   allDone: "ALL-DONE",
   add: "ADD",
@@ -15,16 +16,18 @@ export default function taskReducers(state, action) {
   // payload: state를 변화시킬 데이터 - type에 대한 파라미터. (완료할 태스크의 아이디, 빈 객체, 데이터가 있는 객체.)
   const { type, payload } = action;
 
-  if (type === actionType.add) {
+  if (type === actionType.init) {
+    return [...payload];
+  } else if (type === actionType.add) {
     // 새로운 태스크를 state에게 등록시킨다.
-    const { task, dueDate, priority } = payload;
+    const { id, task, dueDate, priority } = payload;
     return [
       ...state,
       {
-        id: "task_" + (state.length + 1),
-        task: task,
-        dueDate: dueDate,
-        priority: priority,
+        id,
+        task,
+        dueDate,
+        priority,
         done: false,
       },
     ];

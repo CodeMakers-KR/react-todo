@@ -1,13 +1,16 @@
-import { useMemo, useReducer, useRef } from "react";
+import { useEffect, useMemo, useReducer, useRef, useState } from "react";
 import TaskAppender from "./components/TaskAppender";
 import TaskList from "./components/TaskList";
 import Confirm from "./components/modals/Confirm";
 import taskReducers, { actionType } from "./reducers/taskReducers";
+import { addTask, allDoneTask, doneTask, loadTask } from "./http/taskHttp";
 
-const addHandler = (task, dueDate, priority, taskDispatcher) => {
+const addHandler = async (task, dueDate, priority, taskDispatcher) => {
+  const addResponse = await addTask(task, dueDate, priority);
+
   taskDispatcher({
     type: actionType.add,
-    payload: { task, dueDate, priority },
+    payload: { id: addResponse.taskId, task, dueDate, priority },
   });
 };
 
@@ -15,6 +18,8 @@ function App() {
   console.log("Run App Component");
 
   const confirmRef = useRef();
+
+  const [nowLoading, setNowLoading] = useState(true);
 
   const [taskItemList, taskDispatcher] = useReducer(taskReducers, []);
 
@@ -30,8 +35,20 @@ function App() {
     [taskItemList]
   );
 
-  const taskAllDoneHandler = () => {
-    taskDispatcher({ type: actionType.allDone });
+  useEffect(() => {
+    (async () => {
+      setNowLoading(true);
+      const loadResponse = await loadTask();
+      setNowLoading(false);
+      taskDispatcher({ type: actionType.init, payload: loadResponse });
+    })();
+  }, []);
+
+  const taskAllDoneHandler = async () => {
+    const allDoneResponse = await allDoneTask();
+    if (allDoneResponse) {
+      taskDispatcher({ type: actionType.allDone });
+    }
   };
 
   const taskItemCheckHandler = (taskId) => {
@@ -43,14 +60,7 @@ function App() {
     const taskId = confirmRef.taskId;
     confirmRef.current.close();
 
-    console.log(taskId + "가 체크되었습니다.");
-    // state가 관리하는 값이 primitive type이라면, 값만 전달한다.
-    // state가 관리하는 값이 reference type이라면, 함수를 전달한다.
-    // state가 변경되었다고 판단하는 케이스.
-    // - primitive type이 변경되었다. => 값만 비교
-    // - reference type이 변경되었다. => 메모리를 비교.
-    //let arr = [1,2,3]; // 0x1
-    //let arr2 = [...arr]; // 0x2
+    doneTask(taskId);
     taskDispatcher({ type: actionType.done, payload: { taskId } });
   };
 
@@ -62,19 +72,21 @@ function App() {
           taskCount={taskCount}
           onCheck={taskAllDoneHandler}
         />
-        {taskItemList.map(({ id, task, dueDate, priority, done }) => (
-          <TaskList.TaskItem
-            key={id}
-            id={id}
-            task={task}
-            dueDate={dueDate}
-            priority={priority}
-            done={done}
-            onCheck={taskItemCheckHandler}
-          />
-        ))}
+        {nowLoading && <li>Task를 불러오는 중입니다. 잠시만 기다려주세요.</li>}
+        {!nowLoading &&
+          taskItemList.map(({ id, task, dueDate, priority, done }) => (
+            <TaskList.TaskItem
+              key={id}
+              id={id}
+              task={task}
+              dueDate={dueDate}
+              priority={priority}
+              done={done}
+              onCheck={taskItemCheckHandler}
+            />
+          ))}
       </TaskList>
-      <TaskAppender onRef={taskAppenderRef} />
+      <TaskAppender onRef={taskAppenderRef} taskItemList={taskItemList} />
       <Confirm ref={confirmRef} onOk={confirmOkClickHandler}>
         <div>
           <h3>Task를 완료하시겠습니까?</h3>
