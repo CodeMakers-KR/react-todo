@@ -20,7 +20,7 @@ export const addTask = async (task, dueDate, priority) => {
 };
 
 export const loadTask = async () => {
-  const url = "http://localhost:8888/api/v1/task98ruiofjsdl";
+  const url = "http://localhost:8888/api/v1/task";
   const response = await fetch(url); // 비동기함수
 
   console.log(response);
