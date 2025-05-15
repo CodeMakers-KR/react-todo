@@ -1,9 +1,16 @@
 import { useState } from "react";
 import TaskApp from "./components/tasks/TaskApp";
 import ArticleApp from "./components/articles/ArticleApp";
+import { getQueries } from "./utils/location";
 
 function App() {
   const [view, setView] = useState("task");
+
+  const queryMap = getQueries();
+  if (queryMap.jwt) {
+    localStorage.setItem("token", queryMap.jwt);
+    window.location.search = "";
+  }
 
   const viewTask = () => {
     setView("task");

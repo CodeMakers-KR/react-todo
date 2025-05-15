@@ -6,7 +6,7 @@ export default function ArticleApp() {
   const [token, setToken] = useState();
 
   useEffect(() => {
-    const issuedToken = localStorage.getItem("token");
+    let issuedToken = localStorage.getItem("token");
     setToken(issuedToken);
   }, []);
 

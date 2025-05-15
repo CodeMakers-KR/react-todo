@@ -6,6 +6,10 @@ export default function Login({ onLogin }) {
   const emailRef = useRef();
   const passwordRef = useRef();
 
+  const clickGoogleLoginHandler = () => {
+    window.location.href = "http://localhost:8080/oauth2/authorization/google";
+  };
+
   const clickLoginButtonHandler = async () => {
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
@@ -38,6 +42,11 @@ export default function Login({ onLogin }) {
       />
       <button type="button" onClick={clickLoginButtonHandler}>
         Login
+      </button>
+      <hr />
+
+      <button type="button" onClick={clickGoogleLoginHandler}>
+        Google Login
       </button>
     </div>
   );
