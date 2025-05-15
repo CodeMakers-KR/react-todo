@@ -10,6 +10,10 @@ export default function Login({ onLogin }) {
     window.location.href = "http://localhost:8080/oauth2/authorization/google";
   };
 
+  const clickNaverLoginHandler = () => {
+    window.location.href = "http://localhost:8080/oauth2/authorization/naver";
+  };
+
   const clickLoginButtonHandler = async () => {
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
@@ -47,6 +51,9 @@ export default function Login({ onLogin }) {
 
       <button type="button" onClick={clickGoogleLoginHandler}>
         Google Login
+      </button>
+      <button type="button" onClick={clickNaverLoginHandler}>
+        Naver Login
       </button>
     </div>
   );
