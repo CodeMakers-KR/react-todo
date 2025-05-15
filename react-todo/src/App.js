@@ -1,9 +1,10 @@
-import { useEffect, useMemo, useReducer, useRef, useState } from "react";
-import TaskAppender from "./components/TaskAppender";
-import TaskList from "./components/TaskList";
+import { useMemo, useRef } from "react";
+import TaskAppender from "./components/tasks/TaskAppender";
+import TaskList from "./components/tasks/TaskList";
 import Confirm from "./components/modals/Confirm";
-import taskReducers, { actionType } from "./reducers/taskReducers";
-import { addTask, allDoneTask, doneTask, loadTask } from "./http/taskHttp";
+import { actionType } from "./reducers/taskReducers";
+import { addTask, allDoneTask, doneTask } from "./http/taskHttp";
+import useTaskLoad from "./hooks/task";
 
 const addHandler = async (task, dueDate, priority, taskDispatcher) => {
   const addResponse = await addTask(task, dueDate, priority);
@@ -17,12 +18,9 @@ const addHandler = async (task, dueDate, priority, taskDispatcher) => {
 function App() {
   console.log("Run App Component");
 
+  const { taskItemList, taskDispatcher, errors, nowLoading } = useTaskLoad();
+
   const confirmRef = useRef();
-
-  const [nowLoading, setNowLoading] = useState(true);
-
-  const [taskItemList, taskDispatcher] = useReducer(taskReducers, []);
-
   const taskAppenderRef = useRef();
   taskAppenderRef.onAdd = addHandler; // Cache!
   taskAppenderRef.dispatcher = taskDispatcher; // Cache!
@@ -34,15 +32,6 @@ function App() {
     }),
     [taskItemList]
   );
-
-  useEffect(() => {
-    (async () => {
-      setNowLoading(true);
-      const loadResponse = await loadTask();
-      setNowLoading(false);
-      taskDispatcher({ type: actionType.init, payload: loadResponse });
-    })();
-  }, []);
 
   const taskAllDoneHandler = async () => {
     const allDoneResponse = await allDoneTask();
@@ -73,7 +62,9 @@ function App() {
           onCheck={taskAllDoneHandler}
         />
         {nowLoading && <li>Task를 불러오는 중입니다. 잠시만 기다려주세요.</li>}
+        {!nowLoading && errors && <li>에러가 발생했습니다! ({errors})</li>}
         {!nowLoading &&
+          !errors &&
           taskItemList.map(({ id, task, dueDate, priority, done }) => (
             <TaskList.TaskItem
               key={id}

@@ -1,5 +1,5 @@
 import { memo, useRef, useState } from "react";
-import Alert from "./modals/Alert";
+import Alert from "../modals/Alert";
 
 export default memo(function TaskAppender({ onRef }) {
   const [alertMessage, setAlertMessage] = useState();

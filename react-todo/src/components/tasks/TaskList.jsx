@@ -1,5 +1,5 @@
 import { createContext, useContext, useRef } from "react";
-import Confirm from "./modals/Confirm";
+import Confirm from "../modals/Confirm";
 
 const TaskListContext = createContext();
 
