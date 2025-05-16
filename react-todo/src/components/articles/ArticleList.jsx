@@ -2,11 +2,13 @@ import { useEffect, useRef, useState } from "react";
 import { useLoadArticles } from "../../hooks/article";
 import WriteArticle from "./WriteArticle";
 import Article from "./Article";
+import { isAuthority } from "../../utils/resource";
 
 export default function ArticleList() {
   const [view, setView] = useState("list");
   const [refresh, setRefresh] = useState(Math.random());
   const [nowPage, setNowPage] = useState(0);
+  const [articleId, setArticleId] = useState();
 
   const viewList = () => {
     setView("list");
@@ -16,8 +18,9 @@ export default function ArticleList() {
   const viewWrite = () => {
     setView("write");
   };
-  const viewItem = () => {
+  const viewItem = (articleId) => {
     setView("item");
+    setArticleId(articleId);
   };
 
   const observerRef = useRef();
@@ -48,9 +51,11 @@ export default function ArticleList() {
 
   return (
     <div>
-      <button type="button" onClick={viewWrite}>
-        글 작성하기
-      </button>
+      {isAuthority("BOARD_CREATE") && (
+        <button type="button" onClick={viewWrite}>
+          글 작성하기
+        </button>
+      )}
       <button type="button" onClick={viewList}>
         리스트 보기
       </button>
@@ -61,7 +66,9 @@ export default function ArticleList() {
               <div>{count} 개의 게시글이 검색되었습니다.</div>
               <ul>
                 {data?.map((item) => (
-                  <li key={item.id}>{item.subject}</li>
+                  <li key={item.id} onClick={viewItem.bind(this, item.id)}>
+                    {item.subject}
+                  </li>
                 ))}
               </ul>
 
@@ -77,7 +84,7 @@ export default function ArticleList() {
       ) : view === "write" ? (
         <WriteArticle onSuccess={viewList} />
       ) : (
-        <Article />
+        <Article id={articleId} />
       )}
     </div>
   );

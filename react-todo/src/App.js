@@ -2,6 +2,7 @@ import { useState } from "react";
 import TaskApp from "./components/tasks/TaskApp";
 import ArticleApp from "./components/articles/ArticleApp";
 import { getQueries } from "./utils/location";
+import { loadMyInformation } from "./http/articleHttp";
 
 function App() {
   const [view, setView] = useState("task");
@@ -10,9 +11,17 @@ function App() {
   const queryMap = getQueries();
   if (queryMap.jwt) {
     localStorage.setItem("token", queryMap.jwt);
-    // http://localhost:3000?jwt=aslkjsdlkfjaslfasfjaslalkfdaslfkasdfkasjdfk
-    // http://localhost:3000?
-    window.location.search = "";
+
+    (async () => {
+      // 내 정보를 조회해서.
+      const myInfoJson = await loadMyInformation();
+      // sessionStorage에 넣는다.
+      sessionStorage.setItem("info", JSON.stringify(myInfoJson));
+
+      // http://localhost:3000?jwt=aslkjsdlkfjaslfasfjaslalkfdaslfkasdfkasjdfk
+      // http://localhost:3000?
+      window.location.search = "";
+    })();
   }
 
   const viewTask = () => {

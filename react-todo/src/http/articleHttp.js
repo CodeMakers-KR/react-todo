@@ -1,5 +1,27 @@
 const baseUrl = "http://localhost:8080";
 
+export const loadMyInformation = async () => {
+  const jwt = localStorage.getItem("token");
+
+  const response = await fetch(`${baseUrl}/api/v1/member`, {
+    method: "GET",
+    headers: {
+      Authorization: jwt,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(response.statusText);
+  }
+  const json = await response.json();
+
+  if (json.status === 200) {
+    return json.data;
+  }
+
+  throw new Error(JSON.stringify({ data: json.data, error: json.errors }));
+};
+
 export const login = async (email, password) => {
   const response = await fetch(`${baseUrl}/api/v1/auth`, {
     method: "POST",
@@ -21,7 +43,7 @@ export const login = async (email, password) => {
   throw new Error(json.data);
 };
 
-export const loadArticles = async (pageNo = 0, listSize = 20) => {
+export const loadArticles = async (pageNo = 0, listSize = 200) => {
   const jwt = localStorage.getItem("token");
 
   const response = await fetch(
@@ -62,6 +84,52 @@ export const writeArticle = async (subject, content, file) => {
       Authorization: jwt,
     },
     body: formData,
+  });
+
+  if (!response.ok) {
+    throw new Error(response.statusText);
+  }
+
+  const json = await response.json();
+  if (json.status === 200) {
+    return json;
+  }
+
+  throw new Error(JSON.stringify({ data: json.data, error: json.errors }));
+};
+
+export const loadArticle = async (id) => {
+  const jwt = localStorage.getItem("token");
+
+  const response = await fetch(`${baseUrl}/api/v1/board/${id}`, {
+    method: "GET",
+    headers: {
+      Authorization: jwt,
+    },
+  });
+
+  console.log(response);
+  if (!response.ok) {
+    throw new Error(response.statusText);
+  }
+
+  const json = await response.json();
+  console.log(json);
+  if (json.status === 200) {
+    return json;
+  }
+
+  throw new Error(JSON.stringify({ data: json.data, error: json.errors }));
+};
+
+export const loadReplies = async (id) => {
+  const jwt = localStorage.getItem("token");
+
+  const response = await fetch(`${baseUrl}/api/v1/reply/${id}`, {
+    method: "GET",
+    headers: {
+      Authorization: jwt,
+    },
   });
 
   console.log(response);
