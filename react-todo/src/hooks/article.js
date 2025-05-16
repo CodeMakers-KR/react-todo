@@ -5,7 +5,7 @@ import {
 } from "../reducers/articleReducers";
 import { loadArticles } from "../http/articleHttp";
 
-export function useLoadArticles(initialState, pageNo, listSize) {
+export function useLoadArticles(initialState, pageNo, refresh) {
   const [articles, articleDispatcher] = useReducer(
     articleReducers,
     initialState
@@ -18,7 +18,7 @@ export function useLoadArticles(initialState, pageNo, listSize) {
       setNowLoading(true);
       setErrors(undefined);
       try {
-        const articleJson = await loadArticles(pageNo, listSize);
+        const articleJson = await loadArticles(pageNo);
         articleDispatcher({
           type:
             pageNo === 0 ? articleActionType.init : articleActionType.append,
@@ -31,7 +31,7 @@ export function useLoadArticles(initialState, pageNo, listSize) {
         setNowLoading(false);
       }
     })();
-  }, [pageNo, listSize]);
+  }, [pageNo, refresh]);
 
   return { articles, articleDispatcher, nowLoading, errors };
 }

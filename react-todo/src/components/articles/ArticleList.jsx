@@ -1,21 +1,32 @@
 import { useEffect, useRef, useState } from "react";
 import { useLoadArticles } from "../../hooks/article";
 import WriteArticle from "./WriteArticle";
+import Article from "./Article";
 
 export default function ArticleList() {
   const [view, setView] = useState("list");
+  const [refresh, setRefresh] = useState(Math.random());
+  const [nowPage, setNowPage] = useState(0);
 
   const viewList = () => {
     setView("list");
+    setRefresh(Math.random());
+    setNowPage(0);
   };
   const viewWrite = () => {
     setView("write");
   };
+  const viewItem = () => {
+    setView("item");
+  };
 
   const observerRef = useRef();
-  const [nowPage, setNowPage] = useState(0);
 
-  const { articles, nowLoading, errors } = useLoadArticles({}, nowPage);
+  const { articles, nowLoading, errors } = useLoadArticles(
+    {},
+    nowPage,
+    refresh
+  );
   const { count, data, hasMore, page } = articles;
 
   const handleObserver = (entries) => {
@@ -63,8 +74,10 @@ export default function ArticleList() {
           {nowLoading && <div>게시글을 불러오는 중입니다.</div>}
           {errors && <div>{errors.error.authorization}</div>}
         </>
+      ) : view === "write" ? (
+        <WriteArticle onSuccess={viewList} />
       ) : (
-        <WriteArticle />
+        <Article />
       )}
     </div>
   );
