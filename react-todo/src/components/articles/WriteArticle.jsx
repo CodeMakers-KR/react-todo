@@ -17,7 +17,7 @@ export default function WriteArticle({ onSuccess }) {
     const chosenFile = fileRef.current.files;
 
     try {
-      const json = await writeArticle(
+      await writeArticle(
         subjectRef.current.value,
         contentRef.current.value,
         chosenFile.length > 0 ? chosenFile[0] : undefined

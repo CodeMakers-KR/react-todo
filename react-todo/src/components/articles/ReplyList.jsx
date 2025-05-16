@@ -2,7 +2,7 @@ import { useLoadReplies } from "../../hooks/article";
 import { isAuthority, isOwner } from "../../utils/resource";
 
 export default function ReplyList({ id }) {
-  const { replies, nowLoading, errors } = useLoadReplies([], id);
+  const { replies, nowLoading } = useLoadReplies([], id);
   console.log(replies);
 
   return (

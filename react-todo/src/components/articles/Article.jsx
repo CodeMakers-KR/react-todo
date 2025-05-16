@@ -3,7 +3,7 @@ import { isAuthority, isOwner } from "../../utils/resource";
 import ReplyList from "./ReplyList";
 
 export default function Article({ id }) {
-  const { article, nowLoading, error } = useLoadArticle({}, id);
+  const { article, nowLoading } = useLoadArticle({}, id);
 
   if (!isAuthority("BOARD_READ")) {
     return <div>권한이 없습니다.</div>;
