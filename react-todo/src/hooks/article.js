@@ -20,7 +20,8 @@ export function useLoadArticles(initialState, pageNo, listSize) {
       try {
         const articleJson = await loadArticles(pageNo, listSize);
         articleDispatcher({
-          type: articleActionType.init,
+          type:
+            pageNo === 0 ? articleActionType.init : articleActionType.append,
           payload: articleJson,
         });
       } catch (e) {
