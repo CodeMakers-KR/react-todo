@@ -6,9 +6,12 @@ import { getQueries } from "./utils/location";
 function App() {
   const [view, setView] = useState("task");
 
+  // {jwt: aslkjsdlkfjaslfasfjaslalkfdaslfkasdfkasjdfk}
   const queryMap = getQueries();
   if (queryMap.jwt) {
     localStorage.setItem("token", queryMap.jwt);
+    // http://localhost:3000?jwt=aslkjsdlkfjaslfasfjaslalkfdaslfkasdfkasjdfk
+    // http://localhost:3000?
     window.location.search = "";
   }
 
