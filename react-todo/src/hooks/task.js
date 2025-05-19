@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { loadTask } from "../http/taskHttp";
 import { useDispatch, useSelector } from "react-redux";
-import { reduxActions } from "../stores/redux/ReduxStore";
+import { taskActions } from "../stores/toolkit/slice/taskSlice";
 
 export default function useTaskLoad() {
   const [nowLoading, setNowLoading] = useState(true);
@@ -18,7 +18,7 @@ export default function useTaskLoad() {
 
       try {
         const response = await loadTask();
-        taskDispatcher({ type: reduxActions.task.init, payload: response });
+        taskDispatcher(taskActions.init(response));
       } catch (e) {
         setErrors(e.message || "요청이 잘못되었습니다.");
       } finally {

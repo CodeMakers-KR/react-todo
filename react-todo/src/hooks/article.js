@@ -1,11 +1,7 @@
-import { useEffect, useReducer, useState } from "react";
-import {
-  articleActionType,
-  articleReducers,
-} from "../reducers/articleReducers";
+import { useEffect, useState } from "react";
 import { loadArticle, loadArticles, loadReplies } from "../http/articleHttp";
 import { useDispatch, useSelector } from "react-redux";
-import { reduxActions } from "../stores/redux/ReduxStore";
+import { articleActions } from "../stores/toolkit/slice/articleSlice";
 
 export function useLoadArticles(initialState, pageNo, refresh) {
   // const [articles, articleDispatcher] = useReducer(
@@ -25,13 +21,11 @@ export function useLoadArticles(initialState, pageNo, refresh) {
       setErrors(undefined);
       try {
         const articleJson = await loadArticles(pageNo);
-        articleDispatcher({
-          type:
-            pageNo === 0
-              ? reduxActions.article.init
-              : reduxActions.article.append,
-          payload: articleJson,
-        });
+        articleDispatcher(
+          pageNo === 0
+            ? articleActions.init(articleJson)
+            : articleActions.append(articleJson)
+        );
       } catch (e) {
         const errorObj = JSON.parse(e.message);
         setErrors(errorObj);

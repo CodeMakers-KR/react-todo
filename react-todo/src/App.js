@@ -3,8 +3,9 @@ import TaskApp from "./components/tasks/TaskApp";
 import ArticleApp from "./components/articles/ArticleApp";
 import { getQueries } from "./utils/location";
 import { loadMyInformation } from "./http/articleHttp";
-import { useDispatch, useSelector } from "react-redux";
-import { reduxActions } from "./stores/redux/ReduxStore";
+import { useDispatch } from "react-redux";
+import { jwtActions } from "./stores/toolkit/slice/jwtSlice";
+import { userInfoActions } from "./stores/toolkit/slice/userInfoSlice";
 
 function App() {
   const [view, setView] = useState("task");
@@ -15,13 +16,13 @@ function App() {
   // {jwt: aslkjsdlkfjaslfasfjaslalkfdaslfkasdfkasjdfk}
   const queryMap = getQueries();
   if (queryMap.jwt) {
-    appDispatcher({ type: reduxActions.jwt.init, payload: queryMap.jwt });
+    appDispatcher(jwtActions.init(queryMap.jwt));
     // localStorage.setItem("token", queryMap.jwt);
 
     (async () => {
       // 내 정보를 조회해서.
       const myInfoJson = await loadMyInformation();
-      appDispatcher({ type: reduxActions.userInfo.init, payload: myInfoJson });
+      appDispatcher(userInfoActions.init(myInfoJson));
       // sessionStorage에 넣는다.
       // sessionStorage.setItem("info", JSON.stringify(myInfoJson));
 

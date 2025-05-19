@@ -3,14 +3,14 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import ReduxProvider from "./stores/redux/ReduxStore";
+import ToolkitProvider from "./stores/toolkit/ToolkitStore";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <ReduxProvider>
+    <ToolkitProvider>
       <App />
-    </ReduxProvider>
+    </ToolkitProvider>
   </React.StrictMode>
 );
 

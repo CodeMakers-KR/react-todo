@@ -4,15 +4,14 @@ import TaskList from "./TaskList";
 import Confirm from "../modals/Confirm";
 import { addTask, allDoneTask, doneTask } from "../../http/taskHttp";
 import useTaskLoad from "../../hooks/task";
-import { reduxActions } from "../../stores/redux/ReduxStore";
+import { taskActions } from "../../stores/toolkit/slice/taskSlice";
 
 const addHandler = async (task, dueDate, priority, taskDispatcher) => {
   const addResponse = await addTask(task, dueDate, priority);
 
-  taskDispatcher({
-    type: reduxActions.task.add,
-    payload: { id: addResponse.taskId, task, dueDate, priority },
-  });
+  taskDispatcher(
+    taskActions.add({ id: addResponse.taskId, task, dueDate, priority })
+  );
 };
 
 export default function TaskApp() {
@@ -36,7 +35,7 @@ export default function TaskApp() {
   const taskAllDoneHandler = async () => {
     const allDoneResponse = await allDoneTask();
     if (allDoneResponse) {
-      taskDispatcher({ type: reduxActions.task.allDone });
+      taskDispatcher(taskActions.allDone());
     }
   };
 
@@ -50,7 +49,7 @@ export default function TaskApp() {
     confirmRef.current.close();
 
     doneTask(taskId);
-    taskDispatcher({ type: reduxActions.task.done, payload: { taskId } });
+    taskDispatcher(taskActions.done({ taskId }));
   };
 
   return (
