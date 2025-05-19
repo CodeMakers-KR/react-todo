@@ -7,7 +7,6 @@ export const taskSlice = createSlice({
   initialState: initialTask,
   reducers: {
     init(state, action) {
-      console.log(action);
       if (state.length === 0) {
         Object.assign(state, initialTask);
         state.push(...action.payload);

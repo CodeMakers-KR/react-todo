@@ -9,7 +9,6 @@ export const jwtSlice = createSlice({
     init(state, action) {
       localStorage.setItem("token", action.payload);
       state.jwt = action.payload;
-      // Object.assign(state, action.payload);
     },
     remove(state) {
       localStorage.removeItem("token");
