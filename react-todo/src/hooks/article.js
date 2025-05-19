@@ -4,12 +4,18 @@ import {
   articleReducers,
 } from "../reducers/articleReducers";
 import { loadArticle, loadArticles, loadReplies } from "../http/articleHttp";
+import { useDispatch, useSelector } from "react-redux";
+import { reduxActions } from "../stores/redux/ReduxStore";
 
 export function useLoadArticles(initialState, pageNo, refresh) {
-  const [articles, articleDispatcher] = useReducer(
-    articleReducers,
-    initialState
-  );
+  // const [articles, articleDispatcher] = useReducer(
+  //   articleReducers,
+  //   initialState
+  // );
+
+  const articles = useSelector((store) => store.article);
+  const articleDispatcher = useDispatch();
+
   const [nowLoading, setNowLoading] = useState(true);
   const [errors, setErrors] = useState();
 
@@ -21,7 +27,9 @@ export function useLoadArticles(initialState, pageNo, refresh) {
         const articleJson = await loadArticles(pageNo);
         articleDispatcher({
           type:
-            pageNo === 0 ? articleActionType.init : articleActionType.append,
+            pageNo === 0
+              ? reduxActions.article.init
+              : reduxActions.article.append,
           payload: articleJson,
         });
       } catch (e) {

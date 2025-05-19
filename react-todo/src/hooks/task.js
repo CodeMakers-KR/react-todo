@@ -18,7 +18,7 @@ export default function useTaskLoad() {
 
       try {
         const response = await loadTask();
-        taskDispatcher({ type: reduxActions.init, payload: response });
+        taskDispatcher({ type: reduxActions.task.init, payload: response });
       } catch (e) {
         setErrors(e.message || "요청이 잘못되었습니다.");
       } finally {

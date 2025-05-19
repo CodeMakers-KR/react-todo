@@ -1,8 +1,7 @@
-export function isOwner(email) {
+export function isOwner(email, myInfo) {
   if (!sessionStorage.getItem("info")) {
     return false;
   }
-  const myInfo = JSON.parse(sessionStorage.getItem("info"));
 
   if (myInfo?.role === "ROLE_ADMIN") {
     return true;
@@ -11,11 +10,10 @@ export function isOwner(email) {
   return myInfo?.email === email;
 }
 
-export function isAuthority(action) {
+export function isAuthority(action, myInfo) {
   if (!sessionStorage.getItem("info")) {
     return false;
   }
-  const myInfo = JSON.parse(sessionStorage.getItem("info"));
 
   return (
     myInfo?.actionList.filter((eachAction) => eachAction.actionId === action)

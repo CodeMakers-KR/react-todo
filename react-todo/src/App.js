@@ -3,25 +3,31 @@ import TaskApp from "./components/tasks/TaskApp";
 import ArticleApp from "./components/articles/ArticleApp";
 import { getQueries } from "./utils/location";
 import { loadMyInformation } from "./http/articleHttp";
-import ReduxProvider from "./stores/redux/ReduxStore";
+import { useDispatch, useSelector } from "react-redux";
+import { reduxActions } from "./stores/redux/ReduxStore";
 
 function App() {
   const [view, setView] = useState("task");
 
+  // const jwt = useSelector((store) => store.jwt);
+  const appDispatcher = useDispatch();
+
   // {jwt: aslkjsdlkfjaslfasfjaslalkfdaslfkasdfkasjdfk}
   const queryMap = getQueries();
   if (queryMap.jwt) {
-    localStorage.setItem("token", queryMap.jwt);
+    appDispatcher({ type: reduxActions.jwt.init, payload: queryMap.jwt });
+    // localStorage.setItem("token", queryMap.jwt);
 
     (async () => {
       // 내 정보를 조회해서.
       const myInfoJson = await loadMyInformation();
+      appDispatcher({ type: reduxActions.userInfo.init, payload: myInfoJson });
       // sessionStorage에 넣는다.
-      sessionStorage.setItem("info", JSON.stringify(myInfoJson));
+      // sessionStorage.setItem("info", JSON.stringify(myInfoJson));
 
       // http://localhost:3000?jwt=aslkjsdlkfjaslfasfjaslalkfdaslfkasdfkasjdfk
       // http://localhost:3000?
-      window.location.search = "";
+      // window.location.search = "";
     })();
   }
 
@@ -47,9 +53,8 @@ function App() {
           Article
         </button>
       </div>
-      <ReduxProvider>
-        {view === "task" ? <TaskApp /> : <ArticleApp />}
-      </ReduxProvider>
+
+      {view === "task" ? <TaskApp /> : <ArticleApp />}
     </>
   );
 }

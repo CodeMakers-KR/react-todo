@@ -3,8 +3,11 @@ import { useLoadArticles } from "../../hooks/article";
 import WriteArticle from "./WriteArticle";
 import Article from "./Article";
 import { isAuthority } from "../../utils/resource";
+import { useSelector } from "react-redux";
 
 export default function ArticleList() {
+  const myInfo = useSelector((store) => store.userInfo);
+
   const [view, setView] = useState("list");
   const [refresh, setRefresh] = useState(Math.random());
   const [nowPage, setNowPage] = useState(0);
@@ -51,7 +54,7 @@ export default function ArticleList() {
 
   return (
     <div>
-      {isAuthority("BOARD_CREATE") && (
+      {isAuthority("BOARD_CREATE", myInfo) && (
         <button type="button" onClick={viewWrite}>
           글 작성하기
         </button>

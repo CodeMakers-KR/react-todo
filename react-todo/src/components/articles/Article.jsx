@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import { useLoadArticle } from "../../hooks/article";
 import { isAuthority, isOwner } from "../../utils/resource";
 import ReplyList from "./ReplyList";
@@ -5,7 +6,9 @@ import ReplyList from "./ReplyList";
 export default function Article({ id }) {
   const { article, nowLoading } = useLoadArticle({}, id);
 
-  if (!isAuthority("BOARD_READ")) {
+  const myInfo = useSelector((store) => store.userInfo);
+
+  if (!isAuthority("BOARD_READ", myInfo)) {
     return <div>권한이 없습니다.</div>;
   }
 
@@ -22,13 +25,15 @@ export default function Article({ id }) {
           <h4>{article.viewCnt}</h4>
           <pre>{article.content}</pre>
 
-          {isOwner(article.email) && isAuthority("BOARD_UPDATE") && (
-            <button type="button">수정</button>
-          )}
+          {isOwner(article.email, myInfo) &&
+            isAuthority("BOARD_UPDATE", myInfo) && (
+              <button type="button">수정</button>
+            )}
 
-          {isOwner(article.email) && isAuthority("BOARD_DELETE") && (
-            <button type="button">삭제</button>
-          )}
+          {isOwner(article.email, myInfo) &&
+            isAuthority("BOARD_DELETE", myInfo) && (
+              <button type="button">삭제</button>
+            )}
 
           <hr />
           <h3>Replies</h3>
