@@ -56,7 +56,7 @@ function reduxReducers(state = { task: [] }, action) {
     return newState;
   }
 
-  return state;
+  return state; //!!!!
 }
 
 // 3. Redux Store
@@ -69,6 +69,5 @@ function createReduxStore() {
 
 // 4. Redux Provider
 export default function ReduxProvider({ children }) {
-  const store = createReduxStore();
-  return <Provider store={store}>{children}</Provider>;
+  return <Provider store={createReduxStore()}>{children}</Provider>;
 }
