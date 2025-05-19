@@ -3,6 +3,7 @@ import TaskApp from "./components/tasks/TaskApp";
 import ArticleApp from "./components/articles/ArticleApp";
 import { getQueries } from "./utils/location";
 import { loadMyInformation } from "./http/articleHttp";
+import ReduxProvider from "./stores/redux/ReduxStore";
 
 function App() {
   const [view, setView] = useState("task");
@@ -46,7 +47,9 @@ function App() {
           Article
         </button>
       </div>
-      {view === "task" ? <TaskApp /> : <ArticleApp />}
+      <ReduxProvider>
+        {view === "task" ? <TaskApp /> : <ArticleApp />}
+      </ReduxProvider>
     </>
   );
 }
