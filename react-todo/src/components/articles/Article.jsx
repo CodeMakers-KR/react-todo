@@ -12,7 +12,6 @@ export default function Article({ id }) {
     return <div>권한이 없습니다.</div>;
   }
 
-  console.log(article);
   return (
     <div>
       {nowLoading && "게시글을 조회중입니다. 잠시만 기다려주세요."}

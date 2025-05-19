@@ -108,13 +108,12 @@ export const loadArticle = async (id) => {
     },
   });
 
-  console.log(response);
   if (!response.ok) {
     throw new Error(response.statusText);
   }
 
   const json = await response.json();
-  console.log(json);
+
   if (json.status === 200) {
     return json;
   }
@@ -132,13 +131,12 @@ export const loadReplies = async (id) => {
     },
   });
 
-  console.log(response);
   if (!response.ok) {
     throw new Error(response.statusText);
   }
 
   const json = await response.json();
-  console.log(json);
+
   if (json.status === 200) {
     return json;
   }

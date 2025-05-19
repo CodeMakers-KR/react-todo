@@ -6,7 +6,6 @@ export default function ReplyList({ id }) {
   const myInfo = useSelector((store) => store.userInfo);
 
   const { replies, nowLoading } = useLoadReplies([], id);
-  console.log(replies);
 
   return (
     <>

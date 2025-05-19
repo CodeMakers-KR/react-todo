@@ -23,7 +23,6 @@ export const loadTask = async () => {
   const url = "http://localhost:8888/api/v1/task";
   const response = await fetch(url); // 비동기함수
 
-  console.log(response);
   if (!response.ok) {
     throw new Error(response.statusText);
   }

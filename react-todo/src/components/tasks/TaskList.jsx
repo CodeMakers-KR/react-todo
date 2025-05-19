@@ -12,8 +12,6 @@ export default function TaskList({ children }) {
 }
 
 const TaskHeader = ({ taskCount, onCheck }) => {
-  console.log("Run TaskHeader Component");
-
   const ctx = useContext(TaskListContext);
 
   if (ctx === undefined) {
@@ -31,7 +29,6 @@ const TaskHeader = ({ taskCount, onCheck }) => {
   };
 
   const checkHandler = (event) => {
-    console.log("모든 Task 완료: ", event.currentTarget.checked);
     confirmRef.current.open();
     event.currentTarget.checked = false;
   };
@@ -70,7 +67,6 @@ const TaskItem = ({ id, task, dueDate, priority, done, onCheck }) => {
   }
 
   const checkHandler = (event) => {
-    console.log(`${id} Checked: `, event.currentTarget.checked);
     onCheck(id);
   };
 

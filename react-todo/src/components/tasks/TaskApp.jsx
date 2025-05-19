@@ -15,8 +15,6 @@ const addHandler = async (task, dueDate, priority, taskDispatcher) => {
 };
 
 export default function TaskApp() {
-  console.log("Run App Component");
-
   const { taskItemList, taskDispatcher, errors, nowLoading } = useTaskLoad();
 
   const confirmRef = useRef();

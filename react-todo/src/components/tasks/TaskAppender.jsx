@@ -11,13 +11,9 @@ export default memo(function TaskAppender({ onRef }) {
   const priorityRef = useRef();
 
   const buttonClickHandler = () => {
-    console.log("Task: ", taskRef.current.value);
-    console.log("DueDate: ", dueDateRef.current.value);
-    console.log("Priority: ", priorityRef.current.value);
-
     if (!taskRef.current.value) {
       setAlertMessage("Task를 입력하세요.");
-      console.log(alertRef);
+
       alertRef.current.open();
       return;
     }
@@ -43,8 +39,6 @@ export default memo(function TaskAppender({ onRef }) {
     dueDateRef.current.value = "";
     priorityRef.current.value = "";
   };
-
-  console.log("TaskAppender Component가 실행됐음.");
 
   return (
     <>

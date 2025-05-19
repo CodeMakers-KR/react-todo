@@ -50,7 +50,6 @@ function reduxReducers(
 
     const newState = { ...state };
     newState.task = newState.task.map((task) => {
-      console.log(task.id, taskId);
       if (task.id === taskId) {
         task.done = true;
       }
