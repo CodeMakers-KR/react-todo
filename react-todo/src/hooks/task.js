@@ -25,7 +25,7 @@ export default function useTaskLoad() {
         setNowLoading(false);
       }
     })();
-  }, []);
+  }, [taskDispatcher]);
 
   return { taskItemList, taskDispatcher, nowLoading, errors };
 }
