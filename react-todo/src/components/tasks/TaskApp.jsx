@@ -5,6 +5,7 @@ import Confirm from "../modals/Confirm";
 import { actionType } from "../../reducers/taskReducers";
 import { addTask, allDoneTask, doneTask } from "../../http/taskHttp";
 import useTaskLoad from "../../hooks/task";
+s;
 
 const addHandler = async (task, dueDate, priority, taskDispatcher) => {
   const addResponse = await addTask(task, dueDate, priority);
