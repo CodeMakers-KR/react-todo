@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import Login from "./Login";
 import ArticleList from "./ArticleList";
 import { loadMyInformation } from "../../http/articleHttp";
