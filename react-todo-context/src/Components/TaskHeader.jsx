@@ -1,21 +1,30 @@
 import { memo, useRef, useState } from "react";
 import Confirm from "./modal/Confirm";
+import { useDispatch, useSelector } from "react-redux";
+import { reduxActions } from "../stores/redux/ReduxStore";
 
 export default memo(function TaskHeader({
-  taskCount, // 객체, useMemo의 대상.
-  todoLists, // state callback 대상 아님
-  onAllDone, // context의 함수 callback 대상.
   setAlertMessage, // state의 함수 => 이미 캐싱이 되어있음. callback 대상 아님.
   alertRef, // ref 객체 => 이미 캐싱이 되어있음. memo대상 아님.
 }) {
   console.log("Run App - TodoApp - TaskList - TaskHeader Component");
+
+  const taskItemList = useSelector((store) => store.task);
+  const taskDispatcher = useDispatch();
+
+  const taskCount = {
+    process: taskItemList.filter((task) => !task.done).length,
+    done: taskItemList.filter((task) => task.done).length,
+  };
 
   const allDoneConfirmRef = useRef();
 
   const [allDoneConfirmMessage, setAllDoneConfirmMessage] = useState();
 
   const doneAllTodoHandler = (event) => {
-    const processingTodoLength = todoLists.filter((todo) => !todo.done).length;
+    const processingTodoLength = taskItemList.filter(
+      (todo) => !todo.done
+    ).length;
     if (event.currentTarget.checked && processingTodoLength === 0) {
       setAlertMessage("완료할 Task가 없습니다.");
       event.currentTarget.checked = false;
@@ -34,7 +43,7 @@ export default memo(function TaskHeader({
   };
 
   const allDoneOkHandler = () => {
-    onAllDone();
+    taskDispatcher({ type: reduxActions.allDone });
     allDoneConfirmRef.current.close();
   };
 

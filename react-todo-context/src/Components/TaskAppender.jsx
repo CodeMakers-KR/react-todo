@@ -1,8 +1,12 @@
 import { memo, useRef, useState } from "react";
 import Alert from "./modal/Modal";
+import { useDispatch } from "react-redux";
+import { reduxActions } from "../stores/redux/ReduxStore";
 
-export default memo(function TaskAppender({ onAdd }) {
+export default memo(function TaskAppender() {
   console.log("Run App - TodoApp - TaskAppender Component");
+
+  const taskDispatcher = useDispatch();
 
   const taskRef = useRef();
   const dueDateRef = useRef();
@@ -30,11 +34,15 @@ export default memo(function TaskAppender({ onAdd }) {
       return;
     }
 
-    onAdd(
-      taskRef.current.value,
-      dueDateRef.current.value,
-      priorityRef.current.value
-    );
+    taskDispatcher({
+      type: reduxActions.add,
+      payload: {
+        id: Math.random(),
+        task: taskRef.current.value,
+        dueDate: dueDateRef.current.value,
+        priority: priorityRef.current.value,
+      },
+    });
   };
 
   return (

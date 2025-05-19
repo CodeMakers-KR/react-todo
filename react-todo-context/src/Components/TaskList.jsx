@@ -3,9 +3,13 @@ import TaskHeader from "./TaskHeader";
 import TaskItem from "./TaskItem";
 import Confirm from "./modal/Confirm";
 import Alert from "./modal/Modal";
+import useTaskLoad from "../hooks/task";
+import { reduxActions } from "../stores/redux/ReduxStore";
 
-export default function TaskList({ onDone, onAllDone, todoLists }) {
+export default function TaskList() {
   console.log("Run App - TodoApp - TaskList Component");
+
+  const { taskItemList, taskDispatcher, errors, nowLoading } = useTaskLoad();
 
   const doneConfirmRef = useRef();
   const alertRef = useRef();
@@ -23,29 +27,18 @@ export default function TaskList({ onDone, onAllDone, todoLists }) {
   };
 
   const doneTodoItemHandler = () => {
-    onDone(doneConfirmRef.todoId);
+    taskDispatcher({
+      type: reduxActions.done,
+      payload: { taskId: doneConfirmRef.todoId },
+    });
     doneConfirmRef.current.close();
   };
-
-  const taskCount = useMemo(
-    () => ({
-      done: todoLists.filter((task) => task.done).length,
-      process: todoLists.filter((task) => !task.done).length,
-    }),
-    [todoLists]
-  );
 
   return (
     <>
       <ul className="tasks">
-        <TaskHeader
-          taskCount={taskCount}
-          todoLists={todoLists}
-          onAllDone={onAllDone}
-          setAlertMessage={setAlertMessage}
-          alertRef={alertRef}
-        />
-        {todoLists.map((item) => (
+        <TaskHeader setAlertMessage={setAlertMessage} alertRef={alertRef} />
+        {taskItemList.map((item) => (
           <TaskItem
             key={item.id}
             id={item.id}

@@ -5,12 +5,13 @@ import Confirm from "../modals/Confirm";
 import { actionType } from "../../reducers/taskReducers";
 import { addTask, allDoneTask, doneTask } from "../../http/taskHttp";
 import useTaskLoad from "../../hooks/task";
+import { reduxActions } from "../../stores/redux/ReduxStore";
 
 const addHandler = async (task, dueDate, priority, taskDispatcher) => {
   const addResponse = await addTask(task, dueDate, priority);
 
   taskDispatcher({
-    type: actionType.add,
+    type: reduxActions.add,
     payload: { id: addResponse.taskId, task, dueDate, priority },
   });
 };
@@ -36,7 +37,7 @@ export default function TaskApp() {
   const taskAllDoneHandler = async () => {
     const allDoneResponse = await allDoneTask();
     if (allDoneResponse) {
-      taskDispatcher({ type: actionType.allDone });
+      taskDispatcher({ type: reduxActions.allDone });
     }
   };
 
@@ -50,7 +51,7 @@ export default function TaskApp() {
     confirmRef.current.close();
 
     doneTask(taskId);
-    taskDispatcher({ type: actionType.done, payload: { taskId } });
+    taskDispatcher({ type: reduxActions.done, payload: { taskId } });
   };
 
   return (
