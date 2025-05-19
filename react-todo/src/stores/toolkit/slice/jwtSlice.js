@@ -1,16 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const initialJwt = {};
+
 export const jwtSlice = createSlice({
   name: "jwt slice store",
-  initialState: "",
+  initialState: initialJwt,
   reducers: {
     init(state, action) {
       localStorage.setItem("token", action.payload);
-      state = action.payload;
+      state.jwt = action.payload;
+      // Object.assign(state, action.payload);
     },
     remove(state) {
       localStorage.removeItem("token");
-      state = "";
+      Object.assign(state, initialJwt);
     },
   },
 });

@@ -1,14 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const initialTask = [];
+
 export const taskSlice = createSlice({
   name: "task slice store",
-  initialState: [],
+  initialState: initialTask,
   reducers: {
     init(state, action) {
-      for (let i = 0; i < state.length; i++) {
-        state.shift();
+      if (state.length === 0) {
+        Object.assign(state, initialTask);
+        state.push(...action.payload);
       }
-      state.push(...action.payload);
     },
     add(state, action) {
       state.push({ ...action.payload, done: false });

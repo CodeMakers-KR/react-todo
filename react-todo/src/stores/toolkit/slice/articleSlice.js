@@ -1,20 +1,22 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const initialArticle = {};
+
 export const articleSlice = createSlice({
   name: "article slice store",
-  initialState: {},
+  initialState: initialArticle,
   reducers: {
     init(state, action) {
-      for (let i = 0; i < state.data.length; i++) {
-        state.data.shift();
+      if (!state.data) {
+        Object.assign(state, action.payload);
       }
-      state.count = action.payload.count;
-      state.hasMore = action.payload.hasMore;
-      state.listSize = action.payload.listSize;
-      state.page = action.payload.page;
-      state.pageCount = action.payload.pageCount;
-      state.status = action.payload.status;
-      state.data.push(...action.payload.data);
+      // state.count = action.payload.count;
+      // state.hasMore = action.payload.hasMore;
+      // state.listSize = action.payload.listSize;
+      // state.page = action.payload.page;
+      // state.pageCount = action.payload.pageCount;
+      // state.status = action.payload.status;
+      // state.data.push(...action.payload.data);
     },
     append(state, action) {
       state.count = action.payload.count;

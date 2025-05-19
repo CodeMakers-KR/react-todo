@@ -16,5 +16,5 @@ export default function ArticleApp() {
     loginDispatcher(userInfoActions.init(myInfoJson));
   };
 
-  return <>{token ? <ArticleList /> : <Login onLogin={loginHandler} />}</>;
+  return <>{token.jwt ? <ArticleList /> : <Login onLogin={loginHandler} />}</>;
 }

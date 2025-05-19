@@ -1,17 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const initialUserInfo = {};
+
 export const userInfoSlice = createSlice({
   name: "userInfo slice store",
-  initialState: {},
+  initialState: initialUserInfo,
   reducers: {
     init(state, action) {
       const userInfo = action.payload;
-      for (let key in userInfo) {
-        state[key] = userInfo[key];
-      }
+      Object.assign(state, userInfo);
     },
     remove(state, action) {
-      state = {}; // error 발생할 것 같음.
+      Object.assign(state, initialUserInfo);
     },
   },
 });
