@@ -1,15 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialArticle = {};
+const initialArticle = { data: [] };
 
 export const articleSlice = createSlice({
   name: "article slice store",
   initialState: initialArticle,
   reducers: {
     init(state, action) {
-      if (!state.data) {
-        Object.assign(state, action.payload);
-      }
+      //if (!state.data) {
+      Object.assign(state, action.payload);
+      //}
       // state.count = action.payload.count;
       // state.hasMore = action.payload.hasMore;
       // state.listSize = action.payload.listSize;

@@ -8,7 +8,7 @@ export function isOwner(email, myInfo) {
 
 export function isAuthority(action, myInfo) {
   return (
-    myInfo?.actionList.filter((eachAction) => eachAction.actionId === action)
+    myInfo?.actionList?.filter((eachAction) => eachAction.actionId === action)
       .length > 0
   );
 }
