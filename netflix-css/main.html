@@ -6,32 +6,29 @@
     <link rel="stylesheet" href="style.css" />
     <title>Document</title>
     <script type="text/javascript">
-        window.onload = function() {
-            const category = document.querySelector(".header-category");
-            const mainWrapper = document.querySelector(".main-wrapper");
-            const video = document.querySelector(".video-thumbnail");
-            video.muted = true;
-            video.play();
-            
-            let mainTop = mainWrapper.getBoundingClientRect().top;
-            if (mainTop <= 0) {
-                category.style.backgroundColor = "#000";
-            }
-            else {
-                category.style.backgroundColor = "transparent";
-            }
-            
-            window.addEventListener("scroll", function(event) {
-                let mainTop = mainWrapper.getBoundingClientRect().top;
-                if (mainTop <= 0) {
-                    category.style.backgroundColor = "#000";
-                }
-                else {
-                    category.style.backgroundColor = "transparent";
-                }
-            });
+      window.onload = function () {
+        const category = document.querySelector(".header-category");
+        const mainWrapper = document.querySelector(".main-wrapper");
+        const video = document.querySelector(".video-thumbnail");
+        video.muted = true;
+        video.play();
 
+        let mainTop = mainWrapper.getBoundingClientRect().top;
+        if (mainTop <= 0) {
+          category.style.backgroundColor = "#000";
+        } else {
+          category.style.backgroundColor = "transparent";
         }
+
+        window.addEventListener("scroll", function (event) {
+          let mainTop = mainWrapper.getBoundingClientRect().top;
+          if (mainTop <= 0) {
+            category.style.backgroundColor = "#000";
+          } else {
+            category.style.backgroundColor = "transparent";
+          }
+        });
+      };
     </script>
   </head>
   <body>
@@ -97,11 +94,19 @@
               />
               <div class="buttons-container">
                 <div>
-                    <button class="circle-button white-button play-icon-center"></button>
-                    <button class="circle-button transparent-button plus-icon-center"></button>
-                    <button class="circle-button transparent-button good-icon-center"></button>
+                  <button
+                    class="circle-button white-button play-icon-center"
+                  ></button>
+                  <button
+                    class="circle-button transparent-button plus-icon-center"
+                  ></button>
+                  <button
+                    class="circle-button transparent-button good-icon-center"
+                  ></button>
                 </div>
-                <button class="circle-button transparent-button more-icon-center"></button>
+                <button
+                  class="circle-button transparent-button more-icon-center"
+                ></button>
               </div>
               <div class="movie-detail-info-container age-15 hd">
                 1시간 39분
@@ -120,11 +125,19 @@
               />
               <div class="buttons-container">
                 <div>
-                    <button class="circle-button white-button play-icon-center"></button>
-                    <button class="circle-button transparent-button plus-icon-center"></button>
-                    <button class="circle-button transparent-button good-icon-center"></button>
+                  <button
+                    class="circle-button white-button play-icon-center"
+                  ></button>
+                  <button
+                    class="circle-button transparent-button plus-icon-center"
+                  ></button>
+                  <button
+                    class="circle-button transparent-button good-icon-center"
+                  ></button>
                 </div>
-                <button class="circle-button transparent-button more-icon-center"></button>
+                <button
+                  class="circle-button transparent-button more-icon-center"
+                ></button>
               </div>
               <div class="movie-detail-info-container age-15 hd">
                 1시간 39분
@@ -143,11 +156,19 @@
               />
               <div class="buttons-container">
                 <div>
-                    <button class="circle-button white-button play-icon-center"></button>
-                    <button class="circle-button transparent-button plus-icon-center"></button>
-                    <button class="circle-button transparent-button good-icon-center"></button>
+                  <button
+                    class="circle-button white-button play-icon-center"
+                  ></button>
+                  <button
+                    class="circle-button transparent-button plus-icon-center"
+                  ></button>
+                  <button
+                    class="circle-button transparent-button good-icon-center"
+                  ></button>
                 </div>
-                <button class="circle-button transparent-button more-icon-center"></button>
+                <button
+                  class="circle-button transparent-button more-icon-center"
+                ></button>
               </div>
               <div class="movie-detail-info-container age-15 hd">
                 1시간 39분
@@ -161,9 +182,7 @@
           </li>
         </ul>
       </div>
-    </div>
-
-    <div class="recommend-movie content">
+      <div class="recommend-movie content">
         <h3>회원님을 위해 엄선한 오늘의 콘텐츠</h3>
         <ul class="movie-list">
           <li>
@@ -173,11 +192,19 @@
               />
               <div class="buttons-container">
                 <div>
-                    <button class="circle-button white-button play-icon-center"></button>
-                    <button class="circle-button transparent-button plus-icon-center"></button>
-                    <button class="circle-button transparent-button good-icon-center"></button>
+                  <button
+                    class="circle-button white-button play-icon-center"
+                  ></button>
+                  <button
+                    class="circle-button transparent-button plus-icon-center"
+                  ></button>
+                  <button
+                    class="circle-button transparent-button good-icon-center"
+                  ></button>
                 </div>
-                <button class="circle-button transparent-button more-icon-center"></button>
+                <button
+                  class="circle-button transparent-button more-icon-center"
+                ></button>
               </div>
               <div class="movie-detail-info-container age-15 hd">
                 1시간 39분
@@ -196,11 +223,19 @@
               />
               <div class="buttons-container">
                 <div>
-                    <button class="circle-button white-button play-icon-center"></button>
-                    <button class="circle-button transparent-button plus-icon-center"></button>
-                    <button class="circle-button transparent-button good-icon-center"></button>
+                  <button
+                    class="circle-button white-button play-icon-center"
+                  ></button>
+                  <button
+                    class="circle-button transparent-button plus-icon-center"
+                  ></button>
+                  <button
+                    class="circle-button transparent-button good-icon-center"
+                  ></button>
                 </div>
-                <button class="circle-button transparent-button more-icon-center"></button>
+                <button
+                  class="circle-button transparent-button more-icon-center"
+                ></button>
               </div>
               <div class="movie-detail-info-container age-15 hd">
                 1시간 39분
@@ -219,11 +254,19 @@
               />
               <div class="buttons-container">
                 <div>
-                    <button class="circle-button white-button play-icon-center"></button>
-                    <button class="circle-button transparent-button plus-icon-center"></button>
-                    <button class="circle-button transparent-button good-icon-center"></button>
+                  <button
+                    class="circle-button white-button play-icon-center"
+                  ></button>
+                  <button
+                    class="circle-button transparent-button plus-icon-center"
+                  ></button>
+                  <button
+                    class="circle-button transparent-button good-icon-center"
+                  ></button>
                 </div>
-                <button class="circle-button transparent-button more-icon-center"></button>
+                <button
+                  class="circle-button transparent-button more-icon-center"
+                ></button>
               </div>
               <div class="movie-detail-info-container age-15 hd">
                 1시간 39분
@@ -237,9 +280,7 @@
           </li>
         </ul>
       </div>
-    </div>
-
-    <div class="recommend-movie content">
+      <div class="recommend-movie content">
         <h3>회원님을 위해 엄선한 오늘의 콘텐츠</h3>
         <ul class="movie-list">
           <li>
@@ -249,11 +290,19 @@
               />
               <div class="buttons-container">
                 <div>
-                    <button class="circle-button white-button play-icon-center"></button>
-                    <button class="circle-button transparent-button plus-icon-center"></button>
-                    <button class="circle-button transparent-button good-icon-center"></button>
+                  <button
+                    class="circle-button white-button play-icon-center"
+                  ></button>
+                  <button
+                    class="circle-button transparent-button plus-icon-center"
+                  ></button>
+                  <button
+                    class="circle-button transparent-button good-icon-center"
+                  ></button>
                 </div>
-                <button class="circle-button transparent-button more-icon-center"></button>
+                <button
+                  class="circle-button transparent-button more-icon-center"
+                ></button>
               </div>
               <div class="movie-detail-info-container age-15 hd">
                 1시간 39분
@@ -272,11 +321,19 @@
               />
               <div class="buttons-container">
                 <div>
-                    <button class="circle-button white-button play-icon-center"></button>
-                    <button class="circle-button transparent-button plus-icon-center"></button>
-                    <button class="circle-button transparent-button good-icon-center"></button>
+                  <button
+                    class="circle-button white-button play-icon-center"
+                  ></button>
+                  <button
+                    class="circle-button transparent-button plus-icon-center"
+                  ></button>
+                  <button
+                    class="circle-button transparent-button good-icon-center"
+                  ></button>
                 </div>
-                <button class="circle-button transparent-button more-icon-center"></button>
+                <button
+                  class="circle-button transparent-button more-icon-center"
+                ></button>
               </div>
               <div class="movie-detail-info-container age-15 hd">
                 1시간 39분
@@ -295,11 +352,19 @@
               />
               <div class="buttons-container">
                 <div>
-                    <button class="circle-button white-button play-icon-center"></button>
-                    <button class="circle-button transparent-button plus-icon-center"></button>
-                    <button class="circle-button transparent-button good-icon-center"></button>
+                  <button
+                    class="circle-button white-button play-icon-center"
+                  ></button>
+                  <button
+                    class="circle-button transparent-button plus-icon-center"
+                  ></button>
+                  <button
+                    class="circle-button transparent-button good-icon-center"
+                  ></button>
                 </div>
-                <button class="circle-button transparent-button more-icon-center"></button>
+                <button
+                  class="circle-button transparent-button more-icon-center"
+                ></button>
               </div>
               <div class="movie-detail-info-container age-15 hd">
                 1시간 39분
@@ -313,8 +378,6 @@
           </li>
         </ul>
       </div>
-    </div>
-    
     </div>
   </body>
 </html>
