@@ -21,11 +21,16 @@ export const userInfoSlice = createSlice({
 export const userInfoActions = userInfoSlice.actions;
 
 export const userInfoCustomActions = {
-  load(navigate, destinationUrl) {
+  load(navigate, destinationUrl, jwt) {
     return async (dispatcher) => {
       // localStorage 검사
-      const queryMap = getQueries();
-      if (queryMap.jwt) {
+      // const queryMap = getQueries();
+
+      if (!jwt) {
+        jwt = getQueries().jwt;
+      }
+
+      if (jwt) {
         // fetch
         const userInfoJson = await loadMyInformation();
         // dispatch

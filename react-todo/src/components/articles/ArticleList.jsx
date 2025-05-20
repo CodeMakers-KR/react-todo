@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 
 export default function ArticleList() {
   const myInfo = useSelector((store) => store.userInfo);
-
+  console.log(myInfo);
   const [nowPage, setNowPage] = useState(0);
 
   const observerRef = useRef();
