@@ -1,7 +1,7 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import Input from "../ui/Input";
 import { login } from "../../http/articleHttp";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { jwtActions } from "../../stores/toolkit/slice/jwtSlice";
 import { userInfoCustomActions } from "../../stores/toolkit/slice/userInfoSlice";
 import { useNavigate } from "react-router-dom";
@@ -11,9 +11,18 @@ export default function Login() {
   const passwordRef = useRef();
 
   const loginDispatcher = useDispatch();
-
   // URL 라우트를 변경시키는 Hook.
   const navigate = useNavigate();
+
+  // 로그인이 되어있는 상태에서 Login 컴포넌트를 보려고 할 때
+  // Root 컴포넌트로 이동을 시킨다.
+  const userInfo = useSelector((store) => store.userInfo);
+  const jwt = localStorage.getItem("token");
+  useEffect(() => {
+    if (jwt && userInfo.email) {
+      navigate("/");
+    }
+  }, [jwt, userInfo, navigate]);
 
   const clickGoogleLoginHandler = () => {
     window.location.href = "http://localhost:8080/oauth2/authorization/google";
