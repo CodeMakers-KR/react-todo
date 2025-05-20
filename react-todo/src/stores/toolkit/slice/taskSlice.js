@@ -50,20 +50,28 @@ export const taskCustomActions = {
       dispatcher(taskActions.init(taskList));
     };
   },
-  done(taskId) {
+  done(taskId, setError) {
     return async (dispatcher) => {
       // fetch
-      await doneTask(taskId);
-      // dispatch
-      dispatcher(taskActions.done({ taskId }));
+      try {
+        await doneTask(taskId);
+        // dispatch
+        dispatcher(taskActions.done({ taskId }));
+      } catch (e) {
+        setError(e.message || "완료처리를 할 수 없습니다.");
+      }
     };
   },
-  allDone() {
+  allDone(setError) {
     return async (dispatcher) => {
-      // fetch
-      await allDoneTask();
-      // dispatch
-      dispatcher(taskActions.allDone());
+      try {
+        // fetch
+        await allDoneTask();
+        // dispatch
+        dispatcher(taskActions.allDone());
+      } catch (e) {
+        setError(e.message || "일괄 완료처리를 할 수 없습니다.");
+      }
     };
   },
   add(task, dueDate, priority) {

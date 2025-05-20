@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { loadArticle, loadArticles, loadReplies } from "../http/articleHttp";
+import { loadArticle, loadReplies } from "../http/articleHttp";
 import { useDispatch, useSelector } from "react-redux";
-import { articleActions } from "../stores/toolkit/slice/articleSlice";
+import { articleCustomActions } from "../stores/toolkit/slice/articleSlice";
 
 export function useLoadArticles(initialState, pageNo, refresh) {
   // const [articles, articleDispatcher] = useReducer(
@@ -20,12 +20,7 @@ export function useLoadArticles(initialState, pageNo, refresh) {
       setNowLoading(true);
       setErrors(undefined);
       try {
-        const articleJson = await loadArticles(pageNo);
-        articleDispatcher(
-          pageNo === 0
-            ? articleActions.init(articleJson)
-            : articleActions.append(articleJson)
-        );
+        articleDispatcher(articleCustomActions.load(pageNo));
       } catch (e) {
         const errorObj = JSON.parse(e.message);
         setErrors(errorObj);
@@ -33,7 +28,7 @@ export function useLoadArticles(initialState, pageNo, refresh) {
         setNowLoading(false);
       }
     })();
-  }, [pageNo, refresh]);
+  }, [pageNo, refresh, articleDispatcher]);
 
   return { articles, articleDispatcher, nowLoading, errors };
 }

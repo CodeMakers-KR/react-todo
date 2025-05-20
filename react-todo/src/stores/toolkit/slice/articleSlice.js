@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { loadArticles } from "../../../http/articleHttp";
 
 const initialArticle = { data: [] };
 
@@ -22,3 +23,19 @@ export const articleSlice = createSlice({
 });
 
 export const articleActions = articleSlice.actions;
+
+export const articleCustomActions = {
+  load(pageNo) {
+    return async (dispatcher) => {
+      // fetch
+      const articleJson = await loadArticles(pageNo);
+
+      // dispatch
+      if (pageNo === 0) {
+        dispatcher(articleActions.init(articleJson));
+      } else {
+        dispatcher(articleActions.append(articleJson));
+      }
+    };
+  },
+};

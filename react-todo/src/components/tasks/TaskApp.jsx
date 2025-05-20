@@ -1,4 +1,4 @@
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import TaskAppender from "./TaskAppender";
 import TaskList from "./TaskList";
 import Confirm from "../modals/Confirm";
@@ -11,6 +11,14 @@ const addHandler = async (task, dueDate, priority, taskDispatcher) => {
 
 export default function TaskApp() {
   const { taskItemList, taskDispatcher, errors, nowLoading } = useTaskLoad();
+
+  const [error, setError] = useState();
+
+  useEffect(() => {
+    if (error) {
+      alert(error);
+    }
+  }, [error]);
 
   const confirmRef = useRef();
   const taskAppenderRef = useRef();
@@ -30,7 +38,8 @@ export default function TaskApp() {
     // if (allDoneResponse) {
     //   taskDispatcher(taskActions.allDone());
     // }
-    taskDispatcher(taskCustomActions.allDone());
+    setError(undefined);
+    taskDispatcher(taskCustomActions.allDone(setError));
   };
 
   const taskItemCheckHandler = (taskId) => {
@@ -42,9 +51,8 @@ export default function TaskApp() {
     const taskId = confirmRef.taskId;
     confirmRef.current.close();
 
-    // doneTask(taskId);
-    // taskDispatcher(taskActions.done({ taskId }));
-    taskDispatcher(taskCustomActions.done(taskId));
+    setError(undefined);
+    taskDispatcher(taskCustomActions.done(taskId, setError));
   };
 
   return (
