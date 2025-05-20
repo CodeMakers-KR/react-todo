@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { loadMyInformation } from "../../../http/articleHttp";
 
 const initialUserInfo = {};
 
@@ -17,3 +18,18 @@ export const userInfoSlice = createSlice({
 });
 
 export const userInfoActions = userInfoSlice.actions;
+
+export const userInfoCustomActions = {
+  load() {
+    return async (dispatcher) => {
+      // localStorage 검사
+      const jwt = localStorage.getItem("token");
+      if (jwt) {
+        // fetch
+        const userInfoJson = await loadMyInformation();
+        // dispatch
+        dispatcher(userInfoActions.init(userInfoJson));
+      }
+    };
+  },
+};

@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { getQueries } from "../../../utils/location";
 
 const initialJwt = {};
 
@@ -18,3 +19,14 @@ export const jwtSlice = createSlice({
 });
 
 export const jwtActions = jwtSlice.actions;
+
+export const jwtCustomActions = {
+  autoLogin() {
+    return (dispatcher) => {
+      const queryMap = getQueries();
+      if (queryMap.jwt) {
+        dispatcher(jwtActions.init(queryMap.jwt));
+      }
+    };
+  },
+};

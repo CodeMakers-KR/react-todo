@@ -2,16 +2,11 @@ import { useMemo, useRef } from "react";
 import TaskAppender from "./TaskAppender";
 import TaskList from "./TaskList";
 import Confirm from "../modals/Confirm";
-import { addTask, allDoneTask, doneTask } from "../../http/taskHttp";
 import useTaskLoad from "../../hooks/task";
-import { taskActions } from "../../stores/toolkit/slice/taskSlice";
+import { taskCustomActions } from "../../stores/toolkit/slice/taskSlice";
 
 const addHandler = async (task, dueDate, priority, taskDispatcher) => {
-  const addResponse = await addTask(task, dueDate, priority);
-
-  taskDispatcher(
-    taskActions.add({ id: addResponse.taskId, task, dueDate, priority })
-  );
+  taskDispatcher(taskCustomActions.add(task, dueDate, priority));
 };
 
 export default function TaskApp() {
@@ -31,10 +26,11 @@ export default function TaskApp() {
   );
 
   const taskAllDoneHandler = async () => {
-    const allDoneResponse = await allDoneTask();
-    if (allDoneResponse) {
-      taskDispatcher(taskActions.allDone());
-    }
+    // const allDoneResponse = await allDoneTask();
+    // if (allDoneResponse) {
+    //   taskDispatcher(taskActions.allDone());
+    // }
+    taskDispatcher(taskCustomActions.allDone());
   };
 
   const taskItemCheckHandler = (taskId) => {
@@ -46,8 +42,9 @@ export default function TaskApp() {
     const taskId = confirmRef.taskId;
     confirmRef.current.close();
 
-    doneTask(taskId);
-    taskDispatcher(taskActions.done({ taskId }));
+    // doneTask(taskId);
+    // taskDispatcher(taskActions.done({ taskId }));
+    taskDispatcher(taskCustomActions.done(taskId));
   };
 
   return (

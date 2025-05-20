@@ -1,4 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
+import {
+  addTask,
+  allDoneTask,
+  doneTask,
+  loadTask,
+} from "../../../http/taskHttp";
 
 const initialTask = [];
 
@@ -33,3 +39,41 @@ export const taskSlice = createSlice({
 });
 
 export const taskActions = taskSlice.actions;
+
+// Custom Actions (Thunks - Toolkit 기능)
+export const taskCustomActions = {
+  load() {
+    return async (dispatcher) => {
+      // fetch
+      const taskList = await loadTask();
+      // dispatch -> dispatcher
+      dispatcher(taskActions.init(taskList));
+    };
+  },
+  done(taskId) {
+    return async (dispatcher) => {
+      // fetch
+      await doneTask(taskId);
+      // dispatch
+      dispatcher(taskActions.done({ taskId }));
+    };
+  },
+  allDone() {
+    return async (dispatcher) => {
+      // fetch
+      await allDoneTask();
+      // dispatch
+      dispatcher(taskActions.allDone());
+    };
+  },
+  add(task, dueDate, priority) {
+    return async (dispatcher) => {
+      // fetch
+      const addResponse = await addTask(task, dueDate, priority);
+      // dispatch
+      dispatcher(
+        taskActions.add({ id: addResponse.taskId, task, dueDate, priority })
+      );
+    };
+  },
+};
