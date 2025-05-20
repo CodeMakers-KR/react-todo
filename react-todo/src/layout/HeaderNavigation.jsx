@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 export default function HeaderNavigation() {
   return (
@@ -6,13 +6,16 @@ export default function HeaderNavigation() {
       <nav className="menu-navigation">
         <ul>
           <li>
-            <Link to="/">Root</Link>
+            <NavLink to="/">Root</NavLink>
           </li>
           <li>
-            <Link to="/task">Tasks</Link>
+            <NavLink to="/task">Tasks</NavLink>
           </li>
           <li>
-            <Link to="/article">Articles</Link>
+            <NavLink to="/article">Articles</NavLink>
+          </li>
+          <li>
+            <NavLink to="/login">Login</NavLink>
           </li>
         </ul>
       </nav>

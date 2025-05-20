@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { loadMyInformation } from "../../../http/articleHttp";
+import { getQueries } from "../../../utils/location";
 
 const initialUserInfo = {};
 
@@ -20,15 +21,18 @@ export const userInfoSlice = createSlice({
 export const userInfoActions = userInfoSlice.actions;
 
 export const userInfoCustomActions = {
-  load() {
+  load(navigate, destinationUrl) {
     return async (dispatcher) => {
       // localStorage 검사
-      const jwt = localStorage.getItem("token");
-      if (jwt) {
+      const queryMap = getQueries();
+      if (queryMap.jwt) {
         // fetch
         const userInfoJson = await loadMyInformation();
         // dispatch
         dispatcher(userInfoActions.init(userInfoJson));
+
+        // 자동 로그인 이후에 destinationUrl로 이동시키기.
+        navigate(destinationUrl);
       }
     };
   },
