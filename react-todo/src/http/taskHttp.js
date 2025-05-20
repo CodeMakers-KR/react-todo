@@ -37,7 +37,7 @@ export const loadTask = async () => {
 };
 
 export const allDoneTask = async () => {
-  const url = "http://localhost:8888/api/v1/tasksdfasdfsddsf";
+  const url = "http://localhost:8888/api/v1/task";
   const response = await fetch(url, { method: "PUT" });
 
   if (!response.ok) {
