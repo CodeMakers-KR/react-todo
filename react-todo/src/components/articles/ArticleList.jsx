@@ -2,10 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import { useLoadArticles } from "../../hooks/article";
 import { isAuthority } from "../../utils/resource";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 export default function ArticleList() {
   const myInfo = useSelector((store) => store.userInfo);
-  console.log(myInfo);
   const [nowPage, setNowPage] = useState(0);
 
   const observerRef = useRef();
@@ -32,17 +32,15 @@ export default function ArticleList() {
 
   return (
     <div>
-      {isAuthority("BOARD_CREATE", myInfo) && (
-        <button type="button">글 작성하기</button>
-      )}
-      <button type="button">리스트 보기</button>
       <>
         {!errors && (
           <>
             <div>{count} 개의 게시글이 검색되었습니다.</div>
             <ul>
               {data?.map((item) => (
-                <li key={item.id}>{item.subject}</li>
+                <li key={item.id}>
+                  <Link to={`/article/view/${item.id}`}>{item.subject}</Link>
+                </li>
               ))}
             </ul>
 

@@ -12,7 +12,7 @@ export default function HeaderNavigation() {
             <NavLink to="/task">Tasks</NavLink>
           </li>
           <li>
-            <NavLink to="/article">Articles</NavLink>
+            <NavLink to="/article/list">Articles</NavLink>
           </li>
           <li>
             <NavLink to="/login">Login</NavLink>

@@ -1,9 +1,8 @@
-import { Outlet } from "react-router-dom";
 import HeaderNavigation from "./HeaderNavigation";
 import { useDispatch, useSelector } from "react-redux";
 import { userInfoCustomActions } from "../stores/toolkit/slice/userInfoSlice";
 
-export default function RootLayout() {
+export default function Error() {
   const jwt = localStorage.getItem("token");
   const userInfo = useSelector((store) => store.userInfo);
   const rootDispatcher = useDispatch();
@@ -14,7 +13,7 @@ export default function RootLayout() {
   return (
     <div className="main-container">
       <HeaderNavigation />
-      <Outlet />
+      <div>Error!!!!!!!! - 페이지를 찾을 수 없습니다!!!</div>
     </div>
   );
 }

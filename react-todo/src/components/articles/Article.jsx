@@ -2,8 +2,10 @@ import { useSelector } from "react-redux";
 import { useLoadArticle } from "../../hooks/article";
 import { isAuthority, isOwner } from "../../utils/resource";
 import ReplyList from "./ReplyList";
+import { useParams } from "react-router-dom";
 
-export default function Article({ id }) {
+export default function Article() {
+  const { id } = useParams();
   const { article, nowLoading } = useLoadArticle({}, id);
 
   const myInfo = useSelector((store) => store.userInfo);

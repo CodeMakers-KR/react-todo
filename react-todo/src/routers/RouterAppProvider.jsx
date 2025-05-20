@@ -6,6 +6,8 @@ import Login from "../components/articles/Login";
 import ArticleList from "../components/articles/ArticleList";
 import WriteArticle from "../components/articles/WriteArticle";
 import ArticleLayout from "../layout/ArticleLayout";
+import Article from "../components/articles/Article";
+import Error from "../layout/Error";
 
 export default function RouterAppProvider() {
   // Router Rule 생성.
@@ -13,6 +15,7 @@ export default function RouterAppProvider() {
     {
       path: "/", // http://localhost:3000
       element: <RootLayout />,
+      errorElement: <Error />,
       children: [
         {
           path: "", // http://localhost:3000
@@ -27,7 +30,11 @@ export default function RouterAppProvider() {
           element: <ArticleLayout />,
           children: [
             {
-              path: "", // http://localhost:3000/article
+              path: "view/:id", // http://localhost:3000/article/view/123
+              element: <Article />,
+            },
+            {
+              path: "list", // http://localhost:3000/article/list
               element: <ArticleList />,
             },
             {

@@ -26,10 +26,6 @@ export default function Login() {
   const loginHandler = (token) => {
     loginDispatcher(jwtActions.init(token));
     loginDispatcher(userInfoCustomActions.load(navigate, "/", token));
-
-    // 로그인이 완료되면, Root 컴포넌트로 이동을 시켜라.
-    // http://localhost:3000 <- 이동.
-    //navigate("/");
   };
 
   const clickLoginButtonHandler = async () => {

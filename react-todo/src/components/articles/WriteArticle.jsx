@@ -1,10 +1,13 @@
 import { useRef, useState } from "react";
 import Input from "../ui/Input";
 import { writeArticle } from "../../http/articleHttp";
+import { useNavigate } from "react-router-dom";
 
-export default function WriteArticle({ onSuccess }) {
+export default function WriteArticle() {
   const [subjectError, setSubjectError] = useState();
   const [contentError, setContentError] = useState();
+
+  const navigate = useNavigate();
 
   const subjectRef = useRef();
   const fileRef = useRef();
@@ -22,7 +25,8 @@ export default function WriteArticle({ onSuccess }) {
         contentRef.current.value,
         chosenFile.length > 0 ? chosenFile[0] : undefined
       );
-      onSuccess();
+
+      navigate("/article/list");
     } catch (e) {
       const errorObj = JSON.parse(e.message);
       if (errorObj.error) {
