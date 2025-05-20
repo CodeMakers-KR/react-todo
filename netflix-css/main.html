@@ -9,7 +9,10 @@
         window.onload = function() {
             const category = document.querySelector(".header-category");
             const mainWrapper = document.querySelector(".main-wrapper");
-
+            const video = document.querySelector(".video-thumbnail");
+            video.muted = true;
+            video.play();
+            
             let mainTop = mainWrapper.getBoundingClientRect().top;
             if (mainTop <= 0) {
                 category.style.backgroundColor = "#000";
