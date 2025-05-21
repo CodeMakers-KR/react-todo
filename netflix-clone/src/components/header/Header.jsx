@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loadGenres } from "../../http/movieHttp";
 import { genreActions } from "../../stores/slice/genreSlice";
@@ -14,9 +14,18 @@ const headerMenu = [
   "언어별로 찾아보기",
 ];
 
-export default function Header() {
+export default function Header({ mainWrapper }) {
   const genreList = useSelector((store) => store.genre);
   const headerDispather = useDispatch();
+
+  const [needBlack, setNeedBlack] = useState();
+
+  window.scrollHandler = () => {
+    const rect = mainWrapper.current.getBoundingClientRect();
+    const top = rect.top;
+
+    setNeedBlack(top <= 0);
+  };
 
   useEffect(() => {
     if (genreList.length === 0) {
@@ -38,7 +47,13 @@ export default function Header() {
           </ul>
         </div>
       </div>
-      <div className={styles.headerCategory}>
+      <div
+        className={`${styles.headerCategory} ${
+          needBlack
+            ? styles.headerCategoryBlackBackground
+            : styles.headerCategoryTransparentBackground
+        }`}
+      >
         <div className="content">
           <div className={styles.categoryType}>
             <h1>영화</h1>

@@ -1,39 +1,16 @@
+import { useRef } from "react";
 import Header from "./components/header/Header";
 import MovieStore from "./stores/MovieStore";
+import MainHeader from "./components/main/MainHeader";
 
 function App() {
+  const mainWrapperRef = useRef();
+
   return (
     <MovieStore>
-      <Header />
-      <div className="main-wrapper">
-        <header>
-          <video
-            className="video-thumbnail"
-            src="https://0d660885-1389-47bb-8c9a-94dd6a5d6f89.mdnplay.dev/shared-assets/videos/flower.webm"
-          ></video>
-          <div className="content big-header">
-            <div>
-              <h1 className="top-movie-subject">브로큰</h1>
-              <h2 className="top-movie-1">
-                <div className="top10">
-                  <div className="top">TOP</div>
-                  <div className="top-number">10</div>
-                </div>
-                오늘 영화 순위 1위
-              </h2>
-              <p className="top-movie-summary">
-                조폭 생활을 청산하고 평범하게 살아가던 남자. 어느 날 의문의
-                죽임을 당한 동생의 진실을 좆던 그는, 그 사건을 소름끼치도록
-                정확히 예견한 한 소설가와 마주친다.
-              </p>
-              <button className="white-button play-icon">재생</button>
-              <button className="tranparent-50-button info-icon">
-                상세정보
-              </button>
-            </div>
-          </div>
-        </header>
-
+      <Header mainWrapper={mainWrapperRef} />
+      <div className="main-wrapper" ref={mainWrapperRef}>
+        <MainHeader />
         <div className="recommend-movie content">
           <h3>회원님을 위해 엄선한 오늘의 콘텐츠</h3>
           <ul className="movie-list">

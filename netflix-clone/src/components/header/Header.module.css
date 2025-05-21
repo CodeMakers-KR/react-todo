@@ -34,6 +34,14 @@
   z-index: 1000;
 }
 
+.headerCategoryBlackBackground {
+  background-color: #000;
+}
+
+.headerCategoryTransparentBackground {
+  background-color: transparent;
+}
+
 .categoryType {
   background-color: transparent;
   padding: 10px 0;
