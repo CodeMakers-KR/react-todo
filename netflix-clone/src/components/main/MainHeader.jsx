@@ -51,26 +51,28 @@ export default function MainHeader() {
         autoplaySpeed={10000}
         cssEase="linear"
       >
-        <div className="slider-item">
-          <BackDrop url={bestMovies[0].backdrop_path} />
-          <div className="content big-header">
-            <div>
-              <h1 className="top-movie-subject">{bestMovies[0].title}</h1>
-              <h2 className="top-movie-1">
-                <div className="top10">
-                  <div className="top">TOP</div>
-                  <div className="top-number">10</div>
-                </div>
-                오늘 영화 순위 1위
-              </h2>
-              <p className="top-movie-summary">{bestMovies[0].overview}</p>
-              <button className="white-button play-icon">재생</button>
-              <button className="tranparent-50-button info-icon">
-                상세정보
-              </button>
+        {bestMovies.map((movie) => (
+          <div key={movie.id} className="slider-item">
+            <BackDrop url={movie.backdrop_path} />
+            <div className="content big-header">
+              <div>
+                <h1 className="top-movie-subject">{movie.title}</h1>
+                <h2 className="top-movie-1">
+                  <div className="top10">
+                    <div className="top">TOP</div>
+                    <div className="top-number">10</div>
+                  </div>
+                  오늘 영화 순위 1위
+                </h2>
+                <p className="top-movie-summary">{movie.overview}</p>
+                <button className="white-button play-icon">재생</button>
+                <button className="tranparent-50-button info-icon">
+                  상세정보
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        ))}
       </Slider>
     </header>
   );
