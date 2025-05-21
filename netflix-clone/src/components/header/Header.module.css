@@ -1,0 +1,53 @@
+.headerMenu {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: #000;
+}
+
+.headerMainMenu {
+  position: sticky;
+  top: 0px;
+
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  gap: 30px;
+  color: #eee;
+  font-size: 0.9rem;
+  padding: 1rem;
+  background-color: #000;
+}
+
+.logo {
+  background-image: url("../../../public/assets/images/Netflix_Logo_PMS.png");
+  background-repeat: no-repeat;
+  background-position: -16px;
+  background-size: 150px 50px;
+  padding-left: 180px;
+}
+
+.headerCategory {
+  position: sticky;
+  top: 49px;
+  z-index: 1000;
+}
+
+.categoryType {
+  background-color: transparent;
+  padding: 10px 0;
+  display: flex;
+  align-items: center;
+}
+
+.categoryType h1 {
+  margin: 0;
+  margin-right: 20px;
+}
+
+.categoryType select {
+  padding: 5px;
+  background-color: black;
+  color: white;
+}
