@@ -56,6 +56,28 @@ export default function RecommendMovieList({ sectionTitle }) {
   );
 }
 
+export function MovieList({ chosenGenreId }) {
+  const movieList = useSelector((store) => store.movie);
+  const chosenGenre = useSelector((store) =>
+    store.genre.find((genre) => genre.id === parseInt(chosenGenreId))
+  );
+
+  if (!movieList.results) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <div className={`${listStyles.recommendMovie} content`}>
+      <h3>{chosenGenre.name}</h3>
+      <div className={listStyles.flexMovieList}>
+        {movieList.results.map((movie) => (
+          <MovieItem key={movie.id} {...movie} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export function MovieItem({ id, genre_ids, poster_path, release_date, title }) {
   const genreList = useSelector((store) => store.genre);
   if (!genreList || genreList.length === 0) {

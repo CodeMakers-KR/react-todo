@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import Header from "./components/header/Header";
 import MovieStore from "./stores/MovieStore";
 import MainHeader from "./components/main/MainHeader";
-import RecommendMovieList from "./components/main/MovieList";
+import RecommendMovieList, { MovieList } from "./components/main/MovieList";
 
 function App() {
   const mainWrapperRef = useRef();
@@ -24,6 +24,7 @@ function App() {
             <RecommendMovieList sectionTitle="달달한 로맨스 영화 콘텐츠" />
           </>
         )}
+        {chosenGenre && <MovieList chosenGenreId={chosenGenre} />}
       </div>
     </MovieStore>
   );
