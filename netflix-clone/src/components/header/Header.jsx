@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import styles from "./Header.module.css";
 import { useNavigate } from "react-router-dom";
 
@@ -12,13 +12,22 @@ const headerMenu = [
 ];
 
 export default function Header() {
+  const [searchStyle, setSearchStyle] = useState("");
   const searchRef = useRef();
   const navigate = useNavigate();
+
+  const searchClickHandler = () => {
+    setSearchStyle(styles.hover);
+    searchRef.current.focus();
+  };
 
   const searchHandler = (event) => {
     if (event.keyCode === 13) {
       // "/검색어" 로 이동.
-      navigate(`/${searchRef.current.value}`);
+      const searchKeyword = searchRef.current.value;
+      setSearchStyle("");
+      searchRef.current.value = "";
+      navigate(`/${searchKeyword}`);
     }
   };
 
@@ -37,8 +46,13 @@ export default function Header() {
             {headerMenu.map((menu) => (
               <li key={menu}>{menu}</li>
             ))}
-            <li className={styles.movieSearch}>
-              <input type="text" ref={searchRef} onKeyUp={searchHandler} />
+            <li onClick={searchClickHandler} className={styles.movieSearch}>
+              <input
+                type="text"
+                className={searchStyle}
+                ref={searchRef}
+                onKeyUp={searchHandler}
+              />
             </li>
           </ul>
         </div>

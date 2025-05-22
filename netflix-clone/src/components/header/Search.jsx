@@ -20,7 +20,7 @@ export default function Search() {
   return (
     <div>
       <h1>'{search}' 검색결과</h1>
-      <div>
+      <div style={{ display: "flex", flexWrap: "wrap" }}>
         {searchResult.map((movie) => (
           <MovieItem key={movie.id} {...movie} />
         ))}

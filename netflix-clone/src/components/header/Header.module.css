@@ -71,11 +71,9 @@
   transition: width 0.5s;
 }
 
-.movieSearch:hover {
-  input {
-    visibility: visible;
-    width: 100px;
-  }
+.movieSearch > input.hover {
+  visibility: visible;
+  width: 100px;
 }
 
 .movieSearch::before {
