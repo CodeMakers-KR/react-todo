@@ -1,11 +1,8 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { loadGenres } from "../../http/movieHttp";
-import { genreActions } from "../../stores/slice/genreSlice";
+import { useRef } from "react";
 import styles from "./Header.module.css";
+import { useNavigate } from "react-router-dom";
 
 const headerMenu = [
-  "홈",
   "시리즈",
   "영화",
   "게임",
@@ -14,58 +11,36 @@ const headerMenu = [
   "언어별로 찾아보기",
 ];
 
-export default function Header({ mainWrapper, onChangeGenre }) {
-  const genreList = useSelector((store) => store.genre);
-  const headerDispather = useDispatch();
+export default function Header() {
+  const searchRef = useRef();
+  const navigate = useNavigate();
 
-  const [needBlack, setNeedBlack] = useState();
-
-  window.scrollHandler = () => {
-    const rect = mainWrapper.current.getBoundingClientRect();
-    const top = rect.top;
-
-    setNeedBlack(top <= 0);
-  };
-
-  useEffect(() => {
-    if (genreList.length === 0) {
-      (async () => {
-        const json = await loadGenres();
-        headerDispather(genreActions.init(json.genres));
-      })();
+  const searchHandler = (event) => {
+    if (event.keyCode === 13) {
+      // "/검색어" 로 이동.
+      navigate(`/${searchRef.current.value}`);
     }
-  }, [genreList, headerDispather]);
+  };
 
   return (
     <>
       <div className={styles.headerMenu}>
         <div className="content">
           <ul className={`${styles.headerMainMenu} ${styles.logo}`}>
+            <li
+              onClick={() => {
+                navigate("/");
+              }}
+            >
+              홈
+            </li>
             {headerMenu.map((menu) => (
               <li key={menu}>{menu}</li>
             ))}
+            <li className={styles.movieSearch}>
+              <input type="text" ref={searchRef} onKeyUp={searchHandler} />
+            </li>
           </ul>
-        </div>
-      </div>
-      <div
-        className={`${styles.headerCategory} ${
-          needBlack
-            ? styles.headerCategoryBlackBackground
-            : styles.headerCategoryTransparentBackground
-        }`}
-      >
-        <div className="content">
-          <div className={styles.categoryType}>
-            <h1>영화</h1>
-            <select onChange={onChangeGenre}>
-              <option value="">장르</option>
-              {genreList.map(({ id, name }) => (
-                <option key={id} value={id}>
-                  {name}
-                </option>
-              ))}
-            </select>
-          </div>
         </div>
       </div>
     </>

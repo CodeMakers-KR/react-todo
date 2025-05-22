@@ -105,3 +105,21 @@ export async function loadSimilarMovies(movieId) {
   const json = await response.json();
   return json;
 }
+
+export async function searchMovies(searchKeyword) {
+  const options = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${apiReadToken}`,
+    },
+  };
+
+  const response = await fetch(
+    `https://api.themoviedb.org/3/search/movie?query=${searchKeyword}&include_adult=false&language=ko-KR&page=1`,
+    options
+  );
+
+  const json = await response.json();
+  return json.results;
+}
