@@ -5,9 +5,19 @@ import "slick-carousel/slick/slick-theme.css";
 import listStyles from "./MovieList.module.css";
 import itemStyles from "./MovieItem.module.css";
 import { CircleButton } from "../ui/Button";
+import { useRef, useState } from "react";
+import MovieDetail from "./MovieDetail";
 
 export default function RecommendMovieList({ sectionTitle }) {
   const recommendMovieList = useSelector((store) => store.movie);
+
+  const detailModalRef = useRef();
+  const [clickedMovieId, setClickedMovieId] = useState();
+
+  const openModalHandler = (movieId) => {
+    setClickedMovieId(movieId);
+    detailModalRef.current.open();
+  };
 
   if (!recommendMovieList.results) {
     return <div>Loading...</div>;
@@ -15,6 +25,7 @@ export default function RecommendMovieList({ sectionTitle }) {
 
   return (
     <div className={`${listStyles.recommendMovie} content`}>
+      <MovieDetail movieId={clickedMovieId} modalRef={detailModalRef} />
       <h3>{sectionTitle}</h3>
       <div>
         <Slider
@@ -48,7 +59,11 @@ export default function RecommendMovieList({ sectionTitle }) {
           ]}
         >
           {recommendMovieList.results.map((movie) => (
-            <MovieItem key={movie.id} {...movie} />
+            <MovieItem
+              key={movie.id}
+              {...movie}
+              onMoreClick={openModalHandler}
+            />
           ))}
         </Slider>
       </div>
@@ -62,23 +77,39 @@ export function MovieList({ chosenGenreId }) {
     store.genre.find((genre) => genre.id === parseInt(chosenGenreId))
   );
 
+  const [clickedMovieId, setClickedMovieId] = useState();
+  const movieDetailRef = useRef();
+
+  const moreClickHandler = (movieId) => {
+    setClickedMovieId(movieId);
+    movieDetailRef.current.open();
+  };
+
   if (!movieList.results) {
     return <div>Loading...</div>;
   }
 
   return (
     <div className={`${listStyles.recommendMovie} content`}>
+      <MovieDetail movieId={clickedMovieId} modalRef={movieDetailRef} />
       <h3>{chosenGenre.name}</h3>
       <div className={listStyles.flexMovieList}>
         {movieList.results.map((movie) => (
-          <MovieItem key={movie.id} {...movie} />
+          <MovieItem key={movie.id} {...movie} onMoreClick={moreClickHandler} />
         ))}
       </div>
     </div>
   );
 }
 
-export function MovieItem({ id, genre_ids, poster_path, release_date, title }) {
+export function MovieItem({
+  id,
+  genre_ids,
+  poster_path,
+  release_date,
+  title,
+  onMoreClick = () => {},
+}) {
   const genreList = useSelector((store) => store.genre);
   if (!genreList || genreList.length === 0) {
     return <div>Loading...</div>;
@@ -101,7 +132,11 @@ export function MovieItem({ id, genre_ids, poster_path, release_date, title }) {
             <CircleButton color="transparent-button" icon="plus-icon-center" />
             <CircleButton color="transparent-button" icon="good-icon-center" />
           </div>
-          <CircleButton color="transparent-button" icon="more-icon-center" />
+          <CircleButton
+            color="transparent-button"
+            icon="more-icon-center"
+            onClick={onMoreClick.bind(this, id)}
+          />
         </div>
         <div className={`${itemStyles.movieDetailInfoContainer} age-15 hd`}>
           {release_date}
