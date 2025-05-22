@@ -7,6 +7,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import styled from "styled-components";
 import styles from "./MainHeader.module.css";
+import { Button } from "../ui/Button";
 
 const BackDrop = styled.div`
   position: absolute;
@@ -20,18 +21,17 @@ const BackDrop = styled.div`
   z-index: -1;
 `;
 
-export default function MainHeader() {
+export default function MainHeader({ genre }) {
   const movieList = useSelector((store) => store.movie);
   const mainHeaderDispatcher = useDispatch();
 
   useEffect(() => {
     (async () => {
-      if (!movieList.results) {
-        const movieJson = await loadMovies();
-        mainHeaderDispatcher(movieActions.init(movieJson));
-      }
+      const movieJson = await loadMovies(genre);
+      mainHeaderDispatcher(movieActions.reset());
+      mainHeaderDispatcher(movieActions.init(movieJson));
     })();
-  }, [movieList, mainHeaderDispatcher]);
+  }, [mainHeaderDispatcher, genre]);
 
   if (!movieList.results) {
     return <div>Loading...</div>;
@@ -66,10 +66,12 @@ export default function MainHeader() {
                   오늘 영화 순위 1위
                 </h2>
                 <p className={styles.topMovieSummary}>{movie.overview}</p>
-                <button className="white-button play-icon">재생</button>
-                <button className="tranparent-50-button info-icon">
-                  상세정보
-                </button>
+                <Button color="white-button" icon="play-icon" text="재생" />
+                <Button
+                  color="tranparent-50-button"
+                  icon="info-icon"
+                  text="상세정보"
+                />
               </div>
             </div>
           </div>

@@ -14,7 +14,7 @@ const headerMenu = [
   "언어별로 찾아보기",
 ];
 
-export default function Header({ mainWrapper }) {
+export default function Header({ mainWrapper, onChangeGenre }) {
   const genreList = useSelector((store) => store.genre);
   const headerDispather = useDispatch();
 
@@ -57,8 +57,8 @@ export default function Header({ mainWrapper }) {
         <div className="content">
           <div className={styles.categoryType}>
             <h1>영화</h1>
-            <select>
-              <option>장르</option>
+            <select onChange={onChangeGenre}>
+              <option value="">장르</option>
               {genreList.map(({ id, name }) => (
                 <option key={id} value={id}>
                   {name}

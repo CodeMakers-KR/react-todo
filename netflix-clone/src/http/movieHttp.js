@@ -20,7 +20,7 @@ export async function loadGenres() {
   return json;
 }
 
-export async function loadMovies() {
+export async function loadMovies(genreId = "") {
   const options = {
     method: "GET",
     headers: {
@@ -30,7 +30,7 @@ export async function loadMovies() {
   };
 
   const response = await fetch(
-    "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=true&language=ko-KR&page=1&region=ko&sort_by=popularity.desc",
+    `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=true&language=ko-KR&page=1&region=ko&sort_by=popularity.desc&with_genres=${genreId}`,
     options
   );
 

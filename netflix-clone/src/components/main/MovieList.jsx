@@ -2,6 +2,9 @@ import { useSelector } from "react-redux";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import listStyles from "./MovieList.module.css";
+import itemStyles from "./MovieItem.module.css";
+import { CircleButton } from "../ui/Button";
 
 export default function RecommendMovieList({ sectionTitle }) {
   const recommendMovieList = useSelector((store) => store.movie);
@@ -10,12 +13,10 @@ export default function RecommendMovieList({ sectionTitle }) {
     return <div>Loading...</div>;
   }
 
-  console.log(recommendMovieList.results);
-
   return (
-    <div className="recommend-movie content">
+    <div className={`${listStyles.recommendMovie} content`}>
       <h3>{sectionTitle}</h3>
-      <div className="movie-list">
+      <div>
         <Slider
           dots={false}
           infinite={true}
@@ -46,35 +47,48 @@ export default function RecommendMovieList({ sectionTitle }) {
             },
           ]}
         >
-          {recommendMovieList.results.map(
-            ({ id, genre_ids, poster_path, release_date, title }) => (
-              <div key={id} className="movie-item">
-                <div>
-                  <img
-                    alt={title}
-                    src={`https://media.themoviedb.org/t/p/w220_and_h330_face/${poster_path}`}
-                  />
-                  <div className="buttons-container">
-                    <div>
-                      <button className="circle-button white-button play-icon-center"></button>
-                      <button className="circle-button transparent-button plus-icon-center"></button>
-                      <button className="circle-button transparent-button good-icon-center"></button>
-                    </div>
-                    <button className="circle-button transparent-button more-icon-center"></button>
-                  </div>
-                  <div className="movie-detail-info-container age-15 hd">
-                    {release_date}
-                  </div>
-                  <ul className="tags">
-                    {genre_ids.map((id) => (
-                      <li key={id}>{id}</li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            )
-          )}
+          {recommendMovieList.results.map((movie) => (
+            <MovieItem key={movie.id} {...movie} />
+          ))}
         </Slider>
+      </div>
+    </div>
+  );
+}
+
+export function MovieItem({ id, genre_ids, poster_path, release_date, title }) {
+  const genreList = useSelector((store) => store.genre);
+  if (!genreList || genreList.length === 0) {
+    return <div>Loading...</div>;
+  }
+
+  const moviesGenreList = genreList.filter((genre) =>
+    genre_ids.includes(genre.id)
+  );
+
+  return (
+    <div className={itemStyles.movieItem}>
+      <div>
+        <img
+          alt={title}
+          src={`https://media.themoviedb.org/t/p/w220_and_h330_face/${poster_path}`}
+        />
+        <div className="buttons-container">
+          <div>
+            <CircleButton color="white-button" icon="play-icon-center" />
+            <CircleButton color="transparent-button" icon="plus-icon-center" />
+            <CircleButton color="transparent-button" icon="good-icon-center" />
+          </div>
+          <CircleButton color="transparent-button" icon="more-icon-center" />
+        </div>
+        <div className={`${itemStyles.movieDetailInfoContainer} age-15 hd`}>
+          {release_date}
+        </div>
+        <ul className={itemStyles.tags}>
+          {moviesGenreList.map(({ id, name }) => (
+            <li key={id}>{name}</li>
+          ))}
+        </ul>
       </div>
     </div>
   );
