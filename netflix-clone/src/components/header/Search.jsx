@@ -18,7 +18,7 @@ export default function Search() {
   }, [search]);
 
   return (
-    <div>
+    <div className="content">
       <h1>'{search}' 검색결과</h1>
       <div style={{ display: "flex", flexWrap: "wrap" }}>
         {searchResult.map((movie) => (
