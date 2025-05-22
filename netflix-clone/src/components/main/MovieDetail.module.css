@@ -1,0 +1,42 @@
+.detailDialog {
+  width: 80vw;
+  height: 80vh;
+  background-color: #000;
+  padding: 10px;
+  color: #fff;
+}
+
+.movieDetailInfo > img {
+  width: 100%;
+}
+
+.movieDetailInfo > h3 {
+  margin: 0;
+  color: #fff;
+}
+
+.movieDetailInfo > div {
+  font-size: 0.9rem;
+}
+
+.movieDetailsCasts > ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  color: #fff;
+}
+
+.movieDetailCastMovies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.movieDetailSimilar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
