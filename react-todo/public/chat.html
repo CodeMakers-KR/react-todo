@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script type="text/javascript">
+      window.onload = function () {
+        opener.postMessage({ type: "loaded" }, "*");
+        let topicId = undefined;
+        const topicName = document.querySelector("#topicName");
+        const messages = document.querySelector("#messages");
+        const inputMessage = document.querySelector("#inputMessage");
+        const leaveChat = document.querySelector("#leaveChat");
+
+        const events = {
+          init(data) {
+            topicId = data.topicId;
+            topicName.innerText = data.topicName;
+            for (let i = 0; i < data.latestMessages.length; i++) {
+              const { email, message, messageId, name } =
+                data.latestMessages[i];
+              const newMessage = document.createElement("div");
+              newMessage.innerText = `${name}(${email} -> ${message})`;
+              messages.appendChild(newMessage);
+            }
+          },
+          receive(data) {
+            const { email, message, messageId, name } = data;
+            const newMessage = document.createElement("div");
+            newMessage.innerText = `${name}(${email}) -> ${message}`;
+            messages.appendChild(newMessage);
+          },
+        };
+
+        window.addEventListener("message", (event) => {
+          const data = event.data;
+          if (data.event === "chat") {
+            if (data.type === "init") {
+              events.init(data.data);
+            } else if (data.type === "receive") {
+              events.receive(data.data);
+            }
+          }
+        });
+
+        inputMessage.addEventListener("keyup", (event) => {
+          if (event.keyCode === 13) {
+            opener.postMessage(
+              { type: "send", topicId, value: event.currentTarget.value },
+              "*"
+            );
+          }
+        });
+
+        leaveChat.addEventListener("click", () => {
+          opener.postMessage({ type: "leave", topicId }, "*");
+        });
+      };
+    </script>
+  </head>
+  <body>
+    <div id="topicName"></div>
+    <div id="messages"></div>
+    <input type="text" id="inputMessage" />
+    <button id="leaveChat">나가기</button>
+  </body>
+</html>

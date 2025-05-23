@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:8080";
+const baseUrl = "http://192.168.211.11:8080";
 
 export const loadMyInformation = async () => {
   const jwt = localStorage.getItem("token");
